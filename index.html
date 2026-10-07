@@ -1,0 +1,2179 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5" />
+<meta name="theme-color" content="#05060A" />
+<meta name="description" content="NONO AI — همه مدل‌های هوش مصنوعی، در یک گفت‌وگو." />
+<title>NONO AI — همه مدل‌های هوش مصنوعی، در یک گفت‌وگو</title>
+<style>
+/* ============================================================
+   NONO AI — Design System
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#05060A;
+  --bg-2:#0B0D14;
+  --bg-3:#111522;
+  --surface:rgba(255,255,255,.045);
+  --surface-2:rgba(255,255,255,.07);
+  --surface-3:rgba(255,255,255,.1);
+  --border:rgba(255,255,255,.09);
+  --border-strong:rgba(255,255,255,.16);
+  --text:#EAECF5;
+  --text-2:#B9BFD2;
+  --muted:#8A90A6;
+  --accent:#7C5CFF;
+  --accent-2:#22D3EE;
+  --accent-3:#F472B6;
+  --ok:#34D399;
+  --warn:#FBBF24;
+  --err:#FB7185;
+  --shadow:0 18px 50px -12px rgba(0,0,0,.7);
+  --shadow-sm:0 8px 24px -10px rgba(0,0,0,.6);
+  --radius:18px;
+  --radius-sm:12px;
+  --radius-xs:9px;
+  --font: "Vazirmatn", "IRANSansX", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --rail-w:250px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --sat:env(safe-area-inset-top,0px);
+  --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px);
+  --sar:env(safe-area-inset-right,0px);
+}
+html[data-theme="light"]{
+  --bg:#F4F5FA;
+  --bg-2:#FFFFFF;
+  --bg-3:#EDEFF7;
+  --surface:rgba(255,255,255,.72);
+  --surface-2:rgba(255,255,255,.9);
+  --surface-3:rgba(15,20,40,.045);
+  --border:rgba(15,20,40,.09);
+  --border-strong:rgba(15,20,40,.16);
+  --text:#0C1020;
+  --text-2:#3A4159;
+  --muted:#6B7288;
+  --shadow:0 18px 44px -16px rgba(20,25,60,.22);
+  --shadow-sm:0 8px 20px -12px rgba(20,25,60,.22);
+}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;
+  overscroll-behavior:none;
+  -webkit-tap-highlight-color:transparent;
+}
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background:
+    radial-gradient(900px 600px at 12% -5%, rgba(124,92,255,.20), transparent 60%),
+    radial-gradient(800px 600px at 92% 8%, rgba(34,211,238,.14), transparent 62%),
+    radial-gradient(700px 700px at 50% 110%, rgba(244,114,182,.10), transparent 65%);
+  pointer-events:none; z-index:0;
+}
+html[data-theme="light"] body::before{opacity:.75}
+button,input,textarea,select{font-family:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+::selection{background:rgba(124,92,255,.35)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(140,150,180,.28);border-radius:20px;border:3px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(140,150,180,.5);background-clip:content-box}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============================================================
+   App shell
+   ============================================================ */
+#app{
+  position:relative; z-index:1;
+  display:grid;
+  grid-template-columns:var(--rail-w) 1fr;
+  height:100dvh;
+  padding:var(--sat) var(--sar) var(--sab) var(--sal);
+}
+.rail{
+  display:flex;flex-direction:column;gap:10px;
+  padding:18px 14px;
+  border-inline-end:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%);
+  backdrop-filter:blur(18px);
+  min-height:0;
+}
+html[data-theme="light"] .rail{background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.35))}
+.rail-brand{display:flex;align-items:center;gap:11px;padding:6px 8px 14px}
+.brand-text{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.brand-text b{font-size:15px;letter-spacing:.4px;font-weight:800}
+.brand-text span{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail-nav{display:flex;flex-direction:column;gap:4px;overflow-y:auto;flex:1;min-height:0;padding-bottom:8px}
+.nav-btn{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 12px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:13.5px;font-weight:600;
+  transition:background .18s var(--ease),color .18s var(--ease),transform .18s var(--ease);
+  width:100%;text-align:start;
+}
+.nav-btn:hover{background:var(--surface);color:var(--text)}
+.nav-btn.active{
+  background:linear-gradient(90deg, rgba(124,92,255,.20), rgba(34,211,238,.08));
+  color:var(--text);
+  box-shadow:inset 0 0 0 1px var(--border);
+}
+.nav-btn .ic{width:19px;height:19px;flex:none;display:grid;place-items:center}
+.nav-btn .ic svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rail-foot{display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--border)}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 11px;border-radius:11px;font-size:12px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);color:var(--text-2);
+  transition:.18s var(--ease);
+}
+.chip:hover{background:var(--surface-2);color:var(--text)}
+.chip svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.stage{position:relative;min-width:0;min-height:0;overflow:hidden}
+.view{position:absolute;inset:0;display:none;min-height:0;overflow:hidden}
+.view.active{display:flex;flex-direction:column}
+
+/* ============================================================
+   Orb
+   ============================================================ */
+.orb{position:relative;flex:none;display:grid;place-items:center;--s:120px;width:var(--s);height:var(--s)}
+.orb .orb-core{
+  position:absolute;width:66%;height:66%;border-radius:50%;
+  background:conic-gradient(from 0deg, #7C5CFF, #22D3EE, #F472B6, #7C5CFF);
+  filter:blur(1px);
+  animation:orbSpin 9s linear infinite;
+  box-shadow:0 0 60px rgba(124,92,255,.55), inset 0 0 40px rgba(255,255,255,.35);
+}
+.orb .orb-glow{
+  position:absolute;width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.6), transparent 42%),
+             radial-gradient(circle at 70% 75%, rgba(34,211,238,.55), transparent 55%);
+  filter:blur(16px);opacity:.85;animation:orbPulse 4.5s ease-in-out infinite;
+}
+.orb .orb-ring{
+  position:absolute;inset:-12%;border-radius:50%;
+  border:1px solid rgba(124,92,255,.35);
+  animation:orbRing 6s ease-out infinite;
+}
+.orb .orb-ring:nth-child(2){animation-delay:2s}
+.orb .orb-ring:nth-child(3){animation-delay:4s}
+@keyframes orbSpin{to{transform:rotate(360deg)}}
+@keyframes orbPulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.09);opacity:1}}
+@keyframes orbRing{0%{transform:scale(.72);opacity:.75}100%{transform:scale(1.35);opacity:0}}
+.orb[data-state="thinking"] .orb-core{animation-duration:2.4s}
+.orb[data-state="thinking"] .orb-glow{animation-duration:1.5s}
+.orb[data-state="streaming"] .orb-core{animation-duration:1.4s}
+.orb[data-state="success"]{filter:hue-rotate(70deg)}
+.orb[data-state="error"]{filter:hue-rotate(-60deg) saturate(1.4)}
+.orb-sm{--s:38px}
+.orb-xs{--s:26px}
+.orb-xs .orb-glow{filter:blur(7px)}
+
+/* ============================================================
+   Home
+   ============================================================ */
+#view-home{overflow-y:auto;align-items:center;justify-content:center}
+.home-wrap{
+  width:100%;max-width:820px;margin:auto;padding:40px 22px 90px;
+  display:flex;flex-direction:column;align-items:center;gap:22px;
+  animation:rise .6s var(--ease) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.home-orb{--s:158px;margin-bottom:4px}
+.home-title{font-size:clamp(26px,5vw,40px);font-weight:800;text-align:center;line-height:1.35;margin:0}
+.home-title .wave{display:inline-block;animation:wave 2.4s ease-in-out infinite;transform-origin:70% 70%}
+@keyframes wave{0%,60%,100%{transform:rotate(0)}10%{transform:rotate(16deg)}20%{transform:rotate(-8deg)}30%{transform:rotate(14deg)}40%{transform:rotate(-4deg)}50%{transform:rotate(9deg)}}
+.home-sub{color:var(--muted);text-align:center;font-size:clamp(14px,2.6vw,17px);margin:0;max-width:520px;line-height:1.75}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 34px;border-radius:16px;font-size:15.5px;font-weight:800;
+  background:linear-gradient(135deg,#7C5CFF,#5B8CFF 45%,#22D3EE);
+  color:#fff;box-shadow:0 14px 38px -12px rgba(124,92,255,.85), inset 0 1px 0 rgba(255,255,255,.28);
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease),filter .18s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 46px -12px rgba(124,92,255,.95);filter:brightness(1.05)}
+.btn-primary:active{transform:translateY(0) scale(.985)}
+.btn-primary svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.quick-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));
+  gap:11px;width:100%;margin-top:6px;
+}
+.quick-card{
+  display:flex;align-items:center;gap:11px;
+  padding:15px 15px;border-radius:var(--radius);
+  background:var(--surface);border:1px solid var(--border);
+  backdrop-filter:blur(14px);text-align:start;
+  transition:transform .2s var(--ease),border-color .2s,background .2s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);
+}
+.quick-card:hover{transform:translateY(-3px);border-color:var(--border-strong);background:var(--surface-2);box-shadow:var(--shadow)}
+.quick-card .qc-ic{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
+  background:linear-gradient(135deg,rgba(124,92,255,.28),rgba(34,211,238,.16));
+  border:1px solid var(--border);font-size:17px;
+}
+.quick-card b{font-size:13.5px;font-weight:700;display:block}
+.quick-card small{font-size:11px;color:var(--muted);display:block;margin-top:2px}
+.home-section-title{
+  align-self:stretch;display:flex;align-items:center;gap:8px;
+  font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.6px;margin-top:14px;
+  text-transform:uppercase;
+}
+.home-section-title::after{content:"";flex:1;height:1px;background:var(--border)}
+.provider-strip{display:flex;flex-wrap:wrap;gap:9px;align-self:stretch}
+.prov-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 14px;border-radius:999px;font-size:12.5px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);color:var(--text-2);
+  transition:.2s var(--ease);
+}
+.prov-pill:hover{background:var(--surface-2);color:var(--text);transform:translateY(-2px)}
+.prov-dot{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
+.demo-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:700;
+  background:rgba(251,191,36,.12);color:#FBBF24;border:1px solid rgba(251,191,36,.3);
+}
+.demo-badge .dot{width:7px;height:7px;border-radius:50%;background:#FBBF24;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ============================================================
+   Workspace (Chat + Canvas)
+   ============================================================ */
+#view-workspace{overflow:hidden}
+.ws{display:flex;flex-direction:column;height:100%;min-height:0}
+.ws-head{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),transparent);
+  backdrop-filter:blur(20px);flex:none;
+  min-height:60px;
+}
+html[data-theme="light"] .ws-head{background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.5))}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
+  color:var(--text-2);border:1px solid transparent;transition:.18s var(--ease);
+}
+.icon-btn:hover{background:var(--surface);color:var(--text);border-color:var(--border)}
+.icon-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ws-meta{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
+.ws-meta .p{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.3px}
+.ws-meta .m{font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 9px var(--ok);flex:none}
+.status-dot.busy{background:var(--warn);box-shadow:0 0 9px var(--warn);animation:blink 1.1s infinite}
+.status-dot.err{background:var(--err);box-shadow:0 0 9px var(--err)}
+.ws-actions{display:flex;align-items:center;gap:8px;flex:none}
+.seg{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:3px;gap:2px}
+.seg button{
+  padding:6px 11px;border-radius:9px;font-size:12px;font-weight:700;color:var(--muted);
+  display:flex;align-items:center;gap:6px;transition:.16s var(--ease);white-space:nowrap;
+}
+.seg button:hover{color:var(--text)}
+.seg button.active{background:var(--surface-3);color:var(--text);box-shadow:inset 0 0 0 1px var(--border)}
+.seg button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.ws-body{flex:1;display:flex;min-height:0;position:relative;overflow:hidden}
+.pane{min-width:0;min-height:0;display:flex;flex-direction:column;flex:1}
+.pane-chat{background:transparent}
+.divider{
+  width:6px;flex:none;cursor:col-resize;position:relative;
+  background:transparent;transition:background .2s;
+}
+.divider::after{content:"";position:absolute;inset-block:0;inset-inline-start:50%;width:1px;background:var(--border);transform:translateX(-50%)}
+.divider:hover::after,.divider.dragging::after{background:var(--accent);width:2px}
+.pane-canvas{border-inline-start:0;background:rgba(0,0,0,.14)}
+html[data-theme="light"] .pane-canvas{background:rgba(255,255,255,.55)}
+.ws[data-layout="chat"] .pane-canvas,.ws[data-layout="chat"] .divider{display:none}
+.ws[data-layout="canvas"] .pane-chat,.ws[data-layout="canvas"] .divider{display:none}
+.ws[data-layout="preview"] .pane-chat,.ws[data-layout="preview"] .divider{display:none}
+
+/* Messages */
+.messages{
+  flex:1;overflow-y:auto;padding:22px 18px 12px;
+  display:flex;flex-direction:column;gap:18px;scroll-behavior:smooth;
+}
+.msg{display:flex;gap:11px;max-width:900px;width:100%;margin-inline:auto;animation:msgIn .32s var(--ease) both}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.msg.user{flex-direction:row-reverse}
+.msg .avatar{
+  width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center;
+  font-size:12px;font-weight:800;border:1px solid var(--border);
+  background:linear-gradient(135deg,rgba(124,92,255,.3),rgba(34,211,238,.15));
+  color:var(--text);
+}
+.msg.user .avatar{background:linear-gradient(135deg,rgba(34,211,238,.28),rgba(124,92,255,.18))}
+.bubble-wrap{min-width:0;max-width:min(100%,780px);display:flex;flex-direction:column;gap:6px}
+.msg.user .bubble-wrap{align-items:flex-end}
+.bubble{
+  padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.85;
+  background:var(--surface);border:1px solid var(--border);
+  white-space:pre-wrap;word-break:break-word;
+  box-shadow:var(--shadow-sm);
+  transition:max-height .38s var(--ease);
+}
+.msg.user .bubble{
+  background:linear-gradient(135deg,rgba(124,92,255,.24),rgba(34,211,238,.13));
+  border-color:rgba(124,92,255,.28);
+}
+.bubble code{font-family:var(--mono);font-size:12.5px;background:rgba(124,92,255,.16);padding:1.5px 6px;border-radius:6px}
+.bubble pre{
+  background:rgba(0,0,0,.42);border:1px solid var(--border);border-radius:12px;
+  padding:12px 13px;overflow:auto;margin:9px 0;direction:ltr;text-align:left;
+}
+html[data-theme="light"] .bubble pre{background:rgba(15,20,40,.05)}
+.bubble pre code{background:none;padding:0;font-size:12.5px;line-height:1.65}
+.msg-foot{display:flex;align-items:center;gap:5px;flex-wrap:wrap;opacity:.62;transition:opacity .2s}
+.msg:hover .msg-foot,.msg:focus-within .msg-foot{opacity:1}
+.msg-foot .mini{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 9px;border-radius:9px;font-size:11px;font-weight:700;color:var(--muted);
+  border:1px solid transparent;transition:.16s var(--ease);
+}
+.msg-foot .mini:hover{background:var(--surface);color:var(--text);border-color:var(--border)}
+.msg-foot .mini svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.msg-tag{
+  font-size:10.5px;font-weight:700;color:var(--muted);
+  padding:3px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--border);
+}
+.collapse-btn{
+  align-self:flex-start;margin-top:4px;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 13px;border-radius:10px;font-size:12px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);color:var(--accent-2);
+  transition:.18s var(--ease);
+}
+.collapse-btn:hover{background:var(--surface-2);transform:translateY(-1px)}
+.fade-mask{position:relative}
+.fade-mask::after{
+  content:"";position:absolute;inset-inline:0;bottom:0;height:46px;
+  background:linear-gradient(to top,var(--bg-2),transparent);pointer-events:none;border-radius:0 0 16px 16px;
+  opacity:.001;
+}
+.typing{display:inline-flex;gap:5px;align-items:center;padding:4px 2px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--accent-2);animation:tp 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.18s;background:var(--accent)}
+.typing i:nth-child(3){animation-delay:.36s;background:var(--accent-3)}
+@keyframes tp{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+.caret{display:inline-block;width:8px;height:15px;background:var(--accent-2);vertical-align:-2px;margin-inline-start:2px;animation:blink 1s steps(2) infinite;border-radius:2px}
+
+.welcome-chat{
+  margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;
+  padding:30px 20px;color:var(--muted);max-width:460px;
+}
+.welcome-chat h3{margin:0;font-size:19px;color:var(--text);font-weight:800}
+.welcome-chat p{margin:0;font-size:13.5px;line-height:1.8}
+.sugg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;width:100%;margin-top:8px}
+.sugg{
+  padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--border);
+  font-size:12.5px;text-align:start;color:var(--text-2);transition:.2s var(--ease);font-weight:600;
+}
+.sugg:hover{background:var(--surface-2);color:var(--text);transform:translateY(-2px)}
+
+/* Composer */
+.composer{
+  flex:none;padding:10px 16px 16px;border-top:1px solid var(--border);
+  background:linear-gradient(0deg,rgba(255,255,255,.04),transparent);
+  backdrop-filter:blur(18px);
+}
+html[data-theme="light"] .composer{background:linear-gradient(0deg,rgba(255,255,255,.9),rgba(255,255,255,.5))}
+.composer-inner{max-width:900px;margin:0 auto}
+.attach-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.attach-chip{
+  display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:10px;
+  background:var(--surface);border:1px solid var(--border);font-size:11.5px;font-weight:600;
+}
+.attach-chip img{width:26px;height:26px;border-radius:6px;object-fit:cover}
+.attach-chip button{color:var(--err);font-size:15px;line-height:1;padding:0 2px}
+.composer-box{
+  display:flex;align-items:flex-end;gap:8px;
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:8px 8px 8px 8px;transition:border-color .2s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);
+}
+.composer-box:focus-within{border-color:rgba(124,92,255,.55);box-shadow:0 0 0 4px rgba(124,92,255,.12)}
+.composer textarea{
+  flex:1;background:transparent;border:0;outline:none;resize:none;
+  font-size:14.5px;line-height:1.75;padding:9px 6px;max-height:190px;min-height:24px;
+  color:var(--text);
+}
+.composer textarea::placeholder{color:var(--muted)}
+.circle-btn{
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:var(--surface-2);border:1px solid var(--border);color:var(--text-2);
+  transition:.18s var(--ease);
+}
+.circle-btn:hover{background:var(--surface-3);color:var(--text)}
+.circle-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.circle-btn.send{
+  background:linear-gradient(135deg,#7C5CFF,#22D3EE);color:#fff;border-color:transparent;
+  box-shadow:0 8px 22px -8px rgba(124,92,255,.9);
+}
+.circle-btn.send:hover{filter:brightness(1.08);transform:scale(1.04)}
+.circle-btn.rec{background:rgba(251,113,133,.18);color:var(--err);border-color:rgba(251,113,133,.4);animation:blink 1.2s infinite}
+.composer-hint{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:10.5px;color:var(--muted);padding:7px 6px 0;flex-wrap:wrap;
+}
+.composer-hint .left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.auto-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--border);font-weight:700;font-size:10.5px;
+  transition:.18s var(--ease);
+}
+.auto-pill.on{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.35);color:var(--ok)}
+.auto-pill:hover{transform:translateY(-1px)}
+
+/* Failover notice */
+.failover-note{
+  display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;
+  color:var(--muted);background:var(--surface);border:1px solid var(--border);
+  padding:6px 11px;border-radius:999px;animation:msgIn .3s var(--ease) both;
+}
+.failover-note .spin{
+  width:12px;height:12px;border-radius:50%;border:2px solid var(--border-strong);
+  border-top-color:var(--accent-2);animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   Canvas pane
+   ============================================================ */
+.canvas-head{
+  display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);flex:none;flex-wrap:wrap;
+}
+.canvas-title{
+  font-size:13px;font-weight:700;background:transparent;border:1px solid transparent;
+  border-radius:9px;padding:6px 9px;min-width:60px;max-width:230px;flex:1;
+}
+.canvas-title:hover,.canvas-title:focus{border-color:var(--border);background:var(--surface);outline:none}
+.canvas-tabs{display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:3px}
+.canvas-tabs button{padding:5px 11px;border-radius:8px;font-size:11.5px;font-weight:700;color:var(--muted);transition:.16s var(--ease)}
+.canvas-tabs button.active{background:var(--surface-3);color:var(--text)}
+.canvas-body{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+.editor-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:rgba(0,0,0,.18)}
+html[data-theme="light"] .editor-wrap{background:rgba(255,255,255,.6)}
+.editor-wrap textarea,.editor-wrap pre.hl{
+  position:absolute;inset:0;margin:0;padding:16px 18px;
+  font-family:var(--mono);font-size:13px;line-height:1.75;
+  white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;tab-size:2;
+  border:0;
+}
+.editor-wrap pre.hl{overflow:hidden;pointer-events:none;color:var(--text-2);z-index:1;background:transparent}
+.editor-wrap textarea{
+  background:transparent;color:transparent;caret-color:var(--accent-2);
+  resize:none;outline:none;z-index:2;overflow:auto;direction:ltr;text-align:left;
+}
+.editor-wrap.writing textarea,.editor-wrap.writing pre.hl{
+  font-family:var(--font);font-size:14px;line-height:2;direction:inherit;text-align:inherit;
+}
+.editor-wrap textarea::selection{background:rgba(124,92,255,.4);color:transparent}
+.tk-com{color:#6B7280;font-style:italic}
+.tk-str{color:#7EE787}
+.tk-kw{color:#C792EA}
+.tk-num{color:#F78C6C}
+.tk-tag{color:#7C5CFF;font-weight:700}
+.tk-attr{color:#22D3EE}
+html[data-theme="light"] .tk-com{color:#8A90A6}
+html[data-theme="light"] .tk-str{color:#0F9D58}
+html[data-theme="light"] .tk-kw{color:#8B31C7}
+html[data-theme="light"] .tk-num{color:#C2410C}
+html[data-theme="light"] .tk-tag{color:#4F46E5}
+html[data-theme="light"] .tk-attr{color:#0891B2}
+
+.sel-toolbar{
+  position:absolute;inset-inline:12px;top:10px;z-index:20;
+  display:none;gap:6px;flex-wrap:wrap;align-items:center;
+  padding:8px 10px;border-radius:14px;
+  background:rgba(10,12,22,.92);border:1px solid var(--border-strong);
+  box-shadow:var(--shadow);backdrop-filter:blur(16px);
+  animation:msgIn .2s var(--ease) both;
+}
+html[data-theme="light"] .sel-toolbar{background:rgba(255,255,255,.96)}
+.sel-toolbar.show{display:flex}
+.sel-toolbar .lbl{font-size:10.5px;font-weight:800;color:var(--accent-2);padding-inline-end:4px;white-space:nowrap}
+.sel-toolbar button{
+  padding:6px 11px;border-radius:9px;font-size:11.5px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);color:var(--text-2);
+  transition:.16s var(--ease);white-space:nowrap;
+}
+.sel-toolbar button:hover{background:var(--accent);color:#fff;border-color:transparent;transform:translateY(-1px)}
+
+.preview-wrap{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff}
+.preview-bar{
+  display:flex;align-items:center;gap:8px;padding:8px 11px;flex:none;
+  border-bottom:1px solid var(--border);background:var(--bg-3);flex-wrap:wrap;
+}
+.preview-bar .url{
+  flex:1;min-width:120px;font-family:var(--mono);font-size:11px;color:var(--muted);
+  background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:6px 10px;
+  direction:ltr;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.preview-frame{flex:1;border:0;width:100%;background:#fff}
+.canvas-empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:34px 22px;text-align:center;color:var(--muted);
+}
+.canvas-empty h4{margin:0;color:var(--text);font-size:16px;font-weight:800}
+.canvas-empty p{margin:0;font-size:12.5px;max-width:330px;line-height:1.8}
+.canvas-foot{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--border);
+  flex:none;font-size:11px;color:var(--muted);flex-wrap:wrap;
+}
+.canvas-foot .spacer{flex:1}
+.mini-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:10px;
+  font-size:11.5px;font-weight:700;background:var(--surface);border:1px solid var(--border);
+  color:var(--text-2);transition:.16s var(--ease);
+}
+.mini-btn:hover{background:var(--surface-2);color:var(--text);transform:translateY(-1px)}
+.mini-btn.accent{background:linear-gradient(135deg,rgba(124,92,255,.9),rgba(34,211,238,.8));color:#fff;border-color:transparent}
+.mini-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.version-pill{
+  display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text-2);
+}
+
+/* ============================================================
+   Models view
+   ============================================================ */
+.view-head{
+  padding:20px 22px 12px;flex:none;display:flex;flex-direction:column;gap:14px;
+  border-bottom:1px solid var(--border);
+}
+.view-head h1{margin:0;font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px}
+.view-head p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.7}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.search-box{
+  flex:1;min-width:190px;display:flex;align-items:center;gap:9px;
+  background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:0 13px;
+  transition:.2s var(--ease);
+}
+.search-box:focus-within{border-color:rgba(124,92,255,.55);box-shadow:0 0 0 4px rgba(124,92,255,.1)}
+.search-box svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.search-box input{flex:1;background:transparent;border:0;outline:none;padding:11px 0;font-size:13.5px}
+.filter-chips{display:flex;gap:7px;flex-wrap:wrap}
+.fchip{
+  padding:8px 13px;border-radius:999px;font-size:11.5px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);color:var(--muted);
+  transition:.18s var(--ease);
+}
+.fchip:hover{color:var(--text)}
+.fchip.active{background:rgba(124,92,255,.2);border-color:rgba(124,92,255,.45);color:var(--text)}
+.mlist{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;padding:10px 18px 90px}
+.mlist-inner{position:relative;width:100%}
+.mrow{
+  position:absolute;inset-inline:0;display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:15px;
+  background:var(--surface);border:1px solid var(--border);
+  transition:background .16s var(--ease),border-color .16s var(--ease),transform .16s var(--ease);
+  cursor:grab;
+}
+.mrow:hover{background:var(--surface-2);border-color:var(--border-strong)}
+.mrow.dragging{opacity:.4}
+.mrow.drop-target{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,92,255,.35)}
+.mrow.off{opacity:.48}
+.mrow .m-ic{
+  width:36px;height:36px;border-radius:11px;flex:none;display:grid;place-items:center;
+  font-size:11px;font-weight:800;color:#fff;letter-spacing:.3px;
+}
+.mrow .m-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.mrow .m-name{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:7px;min-width:0}
+.mrow .m-name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .m-sub{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cap{
+  font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;
+  background:var(--surface-3);border:1px solid var(--border);color:var(--text-2);letter-spacing:.2px;
+}
+.cap.vision{background:rgba(34,211,238,.16);color:var(--accent-2);border-color:rgba(34,211,238,.3)}
+.cap.code{background:rgba(124,92,255,.16);color:#A78BFA;border-color:rgba(124,92,255,.3)}
+.cap.free{background:rgba(52,211,153,.14);color:var(--ok);border-color:rgba(52,211,153,.3)}
+.cap.long{background:rgba(251,191,36,.14);color:var(--warn);border-color:rgba(251,191,36,.3)}
+.mrow .m-actions{display:flex;gap:4px;flex:none;opacity:.55;transition:opacity .2s}
+.mrow:hover .m-actions{opacity:1}
+.tiny-btn{
+  width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--muted);
+  border:1px solid transparent;transition:.16s var(--ease);
+}
+.tiny-btn:hover{background:var(--surface-3);color:var(--text);border-color:var(--border)}
+.tiny-btn.danger:hover{color:var(--err);border-color:rgba(251,113,133,.3)}
+.tiny-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.switch{
+  width:40px;height:23px;border-radius:999px;background:var(--surface-3);border:1px solid var(--border);
+  position:relative;flex:none;transition:.22s var(--ease);
+}
+.switch::after{
+  content:"";position:absolute;top:2px;inset-inline-start:2px;width:17px;height:17px;border-radius:50%;
+  background:var(--muted);transition:.22s var(--ease);
+}
+.switch.on{background:rgba(52,211,153,.28);border-color:rgba(52,211,153,.5)}
+.switch.on::after{inset-inline-start:20px;background:var(--ok)}
+.empty-state{padding:60px 20px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ============================================================
+   Files view
+   ============================================================ */
+.files-grid{
+  flex:1;overflow-y:auto;padding:16px 20px 100px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;align-content:start;
+}
+.file-card{
+  padding:15px;border-radius:16px;background:var(--surface);border:1px solid var(--border);
+  display:flex;flex-direction:column;gap:9px;transition:.2s var(--ease);box-shadow:var(--shadow-sm);
+}
+.file-card:hover{transform:translateY(-3px);border-color:var(--border-strong);box-shadow:var(--shadow)}
+.file-card .fi{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:17px;background:var(--surface-3);border:1px solid var(--border)}
+.file-card b{font-size:12.8px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-card small{font-size:10.5px;color:var(--muted)}
+.file-card .fa{display:flex;gap:5px;margin-top:2px}
+.dropzone{
+  position:fixed;inset:0;z-index:900;display:none;place-items:center;
+  background:rgba(5,6,10,.82);backdrop-filter:blur(10px);
+}
+.dropzone.show{display:grid;animation:msgIn .2s var(--ease)}
+.dropzone .dz-inner{
+  padding:56px 68px;border-radius:26px;border:2px dashed rgba(124,92,255,.65);
+  background:rgba(124,92,255,.1);text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;
+}
+.dropzone h3{margin:0;font-size:19px;font-weight:800}
+.dropzone p{margin:0;font-size:12.5px;color:var(--muted)}
+
+/* ============================================================
+   Settings view
+   ============================================================ */
+.settings-scroll{flex:1;overflow-y:auto;padding:16px 22px 110px}
+.settings-inner{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.sgroup{
+  border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);
+  overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.sgroup > header{
+  padding:14px 17px;font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:9px;
+  border-bottom:1px solid var(--border);background:var(--surface-3);
+}
+.sgroup > header svg{width:17px;height:17px;stroke:var(--accent-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.srow{
+  display:flex;align-items:center;gap:14px;padding:13px 17px;
+  border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.srow:last-child{border-bottom:0}
+.srow .sl{flex:1;min-width:150px}
+.srow .sl b{font-size:13px;font-weight:700;display:block}
+.srow .sl small{font-size:11px;color:var(--muted);display:block;margin-top:3px;line-height:1.6}
+.srow input[type="text"],.srow input[type="number"],.srow select{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:11px;
+  padding:10px 12px;font-size:13px;outline:none;min-width:180px;transition:.18s var(--ease);
+}
+.srow input:focus,.srow select:focus{border-color:rgba(124,92,255,.6);box-shadow:0 0 0 3px rgba(124,92,255,.12)}
+.btn-danger{
+  padding:9px 15px;border-radius:11px;font-size:12px;font-weight:700;
+  background:rgba(251,113,133,.14);color:var(--err);border:1px solid rgba(251,113,133,.3);
+  transition:.18s var(--ease);
+}
+.btn-danger:hover{background:rgba(251,113,133,.24)}
+
+/* ============================================================
+   Modal / Sheet / Toast
+   ============================================================ */
+.modal-back{
+  position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;
+  padding:18px;background:rgba(3,4,8,.7);backdrop-filter:blur(8px);
+}
+.modal-back.show{display:flex;animation:fadeIn .18s var(--ease)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  width:100%;max-width:520px;max-height:88dvh;overflow-y:auto;
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:22px;
+  box-shadow:var(--shadow);animation:popIn .26s var(--ease) both;
+}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.modal header{
+  padding:16px 19px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg-2);z-index:2;
+  border-radius:22px 22px 0 0;
+}
+.modal header h3{margin:0;font-size:15.5px;font-weight:800;flex:1}
+.modal .body{padding:18px 19px;display:flex;flex-direction:column;gap:14px}
+.modal footer{padding:14px 19px;border-top:1px solid var(--border);display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11.5px;font-weight:700;color:var(--text-2)}
+.field input,.field select,.field textarea{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;font-size:13.5px;outline:none;transition:.18s var(--ease);width:100%;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(124,92,255,.6);box-shadow:0 0 0 3px rgba(124,92,255,.12)}
+.field textarea{resize:vertical;min-height:74px;font-family:var(--mono);font-size:12.5px;direction:ltr;text-align:left}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.check{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:11px;
+  background:var(--surface-2);border:1px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;
+  transition:.16s var(--ease);
+}
+.check:hover{border-color:var(--border-strong)}
+.check input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer}
+.check.on{background:rgba(124,92,255,.16);border-color:rgba(124,92,255,.4)}
+.toast-wrap{position:fixed;bottom:calc(20px + var(--sab));inset-inline-start:50%;transform:translateX(-50%);z-index:1200;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+html[dir="rtl"] .toast-wrap{transform:translateX(50%)}
+.toast{
+  padding:11px 18px;border-radius:14px;font-size:12.5px;font-weight:700;
+  background:rgba(12,14,24,.96);border:1px solid var(--border-strong);color:var(--text);
+  box-shadow:var(--shadow);animation:toastIn .3s var(--ease) both;max-width:88vw;text-align:center;
+}
+html[data-theme="light"] .toast{background:rgba(255,255,255,.98)}
+.toast.ok{border-color:rgba(52,211,153,.5)}
+.toast.err{border-color:rgba(251,113,133,.5)}
+.toast.warn{border-color:rgba(251,191,36,.5)}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.menu-pop{
+  position:absolute;z-index:1100;min-width:210px;padding:7px;
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:15px;
+  box-shadow:var(--shadow);display:none;animation:popIn .18s var(--ease) both;
+}
+.menu-pop.show{display:block}
+.menu-pop button{
+  display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:10px;
+  font-size:12.5px;font-weight:600;color:var(--text-2);text-align:start;transition:.14s var(--ease);
+}
+.menu-pop button:hover{background:var(--surface-2);color:var(--text)}
+.menu-pop hr{border:0;border-top:1px solid var(--border);margin:5px 4px}
+.menu-pop button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Bottom nav (mobile) */
+.bottomnav{
+  display:none;position:fixed;inset-inline:0;bottom:0;z-index:800;
+  padding:7px calc(9px + var(--sar)) calc(7px + var(--sab)) calc(9px + var(--sal));
+  background:rgba(8,10,18,.9);backdrop-filter:blur(22px);border-top:1px solid var(--border);
+  grid-template-columns:repeat(5,1fr);gap:3px;
+}
+html[data-theme="light"] .bottomnav{background:rgba(255,255,255,.94)}
+.bnav{
+  display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 3px;border-radius:12px;
+  color:var(--muted);font-size:9.5px;font-weight:700;transition:.16s var(--ease);
+}
+.bnav.active{color:var(--accent-2);background:var(--surface)}
+.bnav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:980px){
+  :root{--rail-w:76px}
+  .brand-text{display:none}
+  .rail-brand{justify-content:center;padding-inline:0}
+  .nav-btn{justify-content:center;padding:12px 0}
+  .nav-btn > span:not(.ic){display:none}
+  .rail-foot{flex-direction:column;align-items:center}
+  .rail-foot .chip span{display:none}
+}
+@media (max-width:760px){
+  #app{grid-template-columns:1fr}
+  .rail{display:none}
+  .bottomnav{display:grid}
+  .view{padding-bottom:0}
+  #view-home,#view-models,#view-files,#view-settings{padding-bottom:calc(70px + var(--sab))}
+  .settings-scroll,.mlist,.files-grid{padding-bottom:110px}
+  .ws-body{position:relative}
+  .divider{display:none!important}
+  .ws[data-layout="split"] .pane-canvas{display:none}
+  .ws[data-layout="split"] .pane-chat{display:flex}
+  .pane-chat,.pane-canvas{position:absolute;inset:0}
+  .ws[data-layout="chat"] .pane-chat{display:flex}
+  .ws[data-layout="canvas"] .pane-canvas{display:flex}
+  .ws[data-layout="preview"] .pane-canvas{display:flex}
+  .ws[data-layout="preview"] .pane-canvas .editor-wrap{display:none}
+  .messages{padding:16px 12px 8px}
+  .composer{padding:8px 10px 12px}
+  .bubble{font-size:14px}
+  .seg button span{display:none}
+  .seg button{padding:7px 10px}
+  .view-head{padding:16px 15px 10px}
+  .mlist{padding:10px 12px 110px}
+  .ws-head{padding:8px 10px;min-height:56px}
+  .canvas-title{max-width:130px}
+}
+@media (min-width:761px){
+  .pane-chat,.pane-canvas{position:relative;inset:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ============ SVG SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 20.5l1.5-4.6A8.4 8.4 0 0 1 3.5 11 8.4 8.4 0 0 1 12 2.6a8.4 8.4 0 0 1 9 8.9Z"/></symbol>
+    <symbol id="i-models" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2.5"/><path d="M10 2.5v3M14 2.5v3M10 18.5v3M14 18.5v3M2.5 10h3M2.5 14h3M18.5 10h3M18.5 14h3"/></symbol>
+    <symbol id="i-canvas" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 9v11"/></symbol>
+    <symbol id="i-files" viewBox="0 0 24 24"><path d="M3 7.5A2 2 0 0 1 5 5.5h3.6l1.8 2.4H19a2 2 0 0 1 2 2v7.6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1 2 2 0 1 1-4 0 1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 15a2 2 0 1 1 0-4 1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.6 4.4a2 2 0 1 1 4 0A1.6 1.6 0 0 0 16.3 5.5l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.6 1.6 0 0 0 20.9 11a2 2 0 1 1 0 4Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M4.5 12 20 4l-8 16-2-6.5Z"/><path d="m10 13.5 10-9.5"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5M8.5 21.5h7"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-paperclip" viewBox="0 0 24 24"><path d="M20 11.5 12.3 19a4.6 4.6 0 0 1-6.5-6.5l7.6-7.6a3.1 3.1 0 0 1 4.4 4.4l-7.7 7.6a1.5 1.5 0 0 1-2.2-2.2l7.1-7"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 4.5V10H15"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4.5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1V6M19 6l-1 13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19.5L5 6"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.3 10.8 7.4-4.3M8.3 13.2l7.4 4.3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4.5 19 12 6 19.5Z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M4 20h16"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8.5 8.5"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8L12 18.3l-1.8-5.7L4.5 10.8 10.2 9Z"/><path d="M19 3v3M17.5 4.5h3"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-5 6 5 6M16 6l5 6-5 6"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M20 4 4 20"/><path d="M14.5 4.5 20 10l-3 3-5.5-5.5Z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5Z"/><path d="m3 13 9 5 9-5"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 17 5-5 4 4 3-2.5 4 4"/></symbol>
+    <symbol id="i-broom" viewBox="0 0 24 24"><path d="M4 20 12 12M9 21l-5-5M14 10l7-7"/><path d="m12.5 8.5 3 3"/></symbol>
+  </defs>
+</svg>
+
+<div id="app">
+  <!-- ===================== RAIL ===================== -->
+  <aside class="rail" id="rail">
+    <div class="rail-brand">
+      <div class="orb orb-sm" data-state="idle" id="railOrb">
+        <span class="orb-glow"></span><span class="orb-core"></span>
+      </div>
+      <div class="brand-text">
+        <b>NONO AI</b>
+        <span data-i18n="tagline">همه مدل‌ها، یک گفت‌وگو</span>
+      </div>
+    </div>
+    <nav class="rail-nav" id="railNav" aria-label="ناوبری اصلی">
+      <button class="nav-btn" data-nav="home"><span class="ic"><svg><use href="#i-home"/></svg></span><span data-i18n="nav.home">خانه</span></button>
+      <button class="nav-btn" data-nav="chat"><span class="ic"><svg><use href="#i-chat"/></svg></span><span data-i18n="nav.chat">چت</span></button>
+      <button class="nav-btn" data-nav="models"><span class="ic"><svg><use href="#i-models"/></svg></span><span data-i18n="nav.models">مدل‌ها</span></button>
+      <button class="nav-btn" data-nav="canvas"><span class="ic"><svg><use href="#i-canvas"/></svg></span><span data-i18n="nav.canvas">کانواس</span></button>
+      <button class="nav-btn" data-nav="files"><span class="ic"><svg><use href="#i-files"/></svg></span><span data-i18n="nav.files">فایل‌ها</span></button>
+      <button class="nav-btn" data-nav="settings"><span class="ic"><svg><use href="#i-settings"/></svg></span><span data-i18n="nav.settings">تنظیمات</span></button>
+    </nav>
+    <div class="rail-foot">
+      <button class="chip" id="themeBtn" title="Theme"><svg id="themeIcon"><use href="#i-moon"/></svg><span data-i18n="theme">تاریک</span></button>
+      <button class="chip" id="langBtn" title="Language"><svg><use href="#i-globe"/></svg><span id="langLabel">EN</span></button>
+    </div>
+  </aside>
+
+  <!-- ===================== STAGE ===================== -->
+  <main class="stage" id="stage">
+
+    <!-- ---------- HOME ---------- -->
+    <section class="view active" id="view-home">
+      <div class="home-wrap">
+        <div class="orb home-orb" data-state="idle" id="homeOrb">
+          <span class="orb-ring"></span><span class="orb-ring"></span><span class="orb-ring"></span>
+          <span class="orb-glow"></span><span class="orb-core"></span>
+        </div>
+        <h1 class="home-title"><span class="wave">👋</span> <span data-i18n="home.greet">سلام</span></h1>
+        <p class="home-sub" data-i18n="home.sub">امروز چه کاری برات انجام بدم؟</p>
+        <button class="btn-primary" id="startChatBtn">
+          <svg><use href="#i-sparkle"/></svg>
+          <span data-i18n="home.start">شروع چت</span>
+        </button>
+
+        <div class="quick-grid">
+          <button class="quick-card" data-quick="chat"><span class="qc-ic">💬</span><span><b data-i18n="quick.newChat">چت جدید</b><small data-i18n="quick.newChatSub">گفت‌وگوی تازه</small></span></button>
+          <button class="quick-card" data-quick="canvas"><span class="qc-ic">🎨</span><span><b>Canvas</b><small data-i18n="quick.canvasSub">فضای ویرایش</small></span></button>
+          <button class="quick-card" data-quick="code"><span class="qc-ic">💻</span><span><b data-i18n="quick.code">کدنویسی</b><small data-i18n="quick.codeSub">HTML / CSS / JS</small></span></button>
+          <button class="quick-card" data-quick="write"><span class="qc-ic">✍️</span><span><b data-i18n="quick.write">نوشتن</b><small data-i18n="quick.writeSub">متن و مقاله</small></span></button>
+          <button class="quick-card" data-quick="preview"><span class="qc-ic">🌐</span><span><b>Preview</b><small data-i18n="quick.previewSub">پیش‌نمایش زنده</small></span></button>
+          <button class="quick-card" data-quick="file"><span class="qc-ic">📁</span><span><b data-i18n="quick.file">فایل</b><small data-i18n="quick.fileSub">ورود و ویرایش</small></span></button>
+        </div>
+
+        <div class="home-section-title"><span data-i18n="home.providers">ارائه‌دهندگان</span></div>
+        <div class="provider-strip" id="providerStrip"></div>
+
+        <div id="homeDemoBadge" class="demo-badge hidden"><span class="dot"></span><span data-i18n="demo.badge">حالت نمایشی — پاسخ‌ها نمونه هستند</span></div>
+      </div>
+    </section>
+
+    <!-- ---------- WORKSPACE (CHAT + CANVAS) ---------- -->
+    <section class="view" id="view-workspace">
+      <div class="ws" id="ws" data-layout="chat">
+        <header class="ws-head">
+          <button class="icon-btn" id="wsBack" aria-label="بازگشت"><svg><use href="#i-back"/></svg></button>
+          <div class="orb orb-xs" data-state="idle" id="wsOrb"><span class="orb-glow"></span><span class="orb-core"></span></div>
+          <div class="ws-meta">
+            <div class="p" id="wsProvider">—</div>
+            <div class="m"><span class="status-dot" id="wsStatusDot"></span><span id="wsModel">—</span></div>
+          </div>
+          <div class="ws-actions">
+            <div class="seg" id="layoutSeg" role="tablist">
+              <button data-layout="chat" class="active" title="Chat"><svg><use href="#i-chat"/></svg><span data-i18n="layout.chat">چت</span></button>
+              <button data-layout="split" title="Split"><svg><use href="#i-layers"/></svg><span data-i18n="layout.split">Split</span></button>
+              <button data-layout="canvas" title="Canvas"><svg><use href="#i-canvas"/></svg><span data-i18n="layout.canvas">کانواس</span></button>
+              <button data-layout="preview" title="Preview"><svg><use href="#i-eye"/></svg><span data-i18n="layout.preview">Preview</span></button>
+            </div>
+            <button class="icon-btn" id="wsMenuBtn" aria-label="منو"><svg><use href="#i-menu"/></svg></button>
+          </div>
+        </header>
+
+        <div class="ws-body" id="wsBody">
+          <!-- CHAT PANE -->
+          <div class="pane pane-chat" id="paneChat">
+            <div class="messages" id="messages" role="log" aria-live="polite"></div>
+            <div class="composer">
+              <div class="composer-inner">
+                <div class="attach-row" id="attachRow"></div>
+                <div class="composer-box">
+                  <button class="circle-btn" id="attachBtn" title="پیوست"><svg><use href="#i-paperclip"/></svg></button>
+                  <textarea id="composerInput" rows="1" placeholder="پیامت رو بنویس..." aria-label="متن پیام"></textarea>
+                  <button class="circle-btn" id="micBtn" title="ورودی صوتی"><svg><use href="#i-mic"/></svg></button>
+                  <button class="circle-btn send" id="sendBtn" title="ارسال"><svg><use href="#i-send"/></svg></button>
+                  <button class="circle-btn hidden" id="stopBtn" title="توقف"><svg><use href="#i-stop"/></svg></button>
+                </div>
+                <div class="composer-hint">
+                  <div class="left">
+                    <button class="auto-pill" id="autoPill"><svg style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-zap"/></svg><span data-i18n="chat.auto">حالت خودکار</span></button>
+                    <span id="composerStatus"></span>
+                  </div>
+                  <span data-i18n="chat.hint">Enter ارسال • Shift+Enter خط جدید</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider" id="divider" role="separator" aria-orientation="vertical"></div>
+
+          <!-- CANVAS PANE -->
+          <div class="pane pane-canvas" id="paneCanvas">
+            <div id="canvasHost" style="display:flex;flex-direction:column;height:100%;min-height:0"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- MODELS ---------- -->
+    <section class="view" id="view-models">
+      <div class="view-head">
+        <h1><svg style="width:22px;height:22px;stroke:var(--accent-2);fill:none;stroke-width:1.8"><use href="#i-models"/></svg><span data-i18n="models.title">مدیریت مدل‌ها</span></h1>
+        <p><span id="modelCountLabel">0</span> <span data-i18n="models.count">مدل ثبت‌شده</span> · <span data-i18n="models.unlimited">معماری برای هزاران مدل</span></p>
+        <div class="toolbar">
+          <label class="search-box">
+            <svg><use href="#i-search"/></svg>
+            <input type="search" id="modelSearch" placeholder="جستجوی مدل..." aria-label="جستجوی مدل" />
+          </label>
+          <button class="mini-btn accent" id="addModelBtn"><svg><use href="#i-plus"/></svg><span data-i18n="models.add">افزودن مدل</span></button>
+        </div>
+        <div class="filter-chips" id="modelFilters"></div>
+      </div>
+      <div class="mlist" id="modelList" tabindex="0"><div class="mlist-inner" id="modelListInner"></div></div>
+    </section>
+
+    <!-- ---------- FILES ---------- -->
+    <section class="view" id="view-files">
+      <div class="view-head">
+        <h1><svg style="width:22px;height:22px;stroke:var(--accent-2);fill:none;stroke-width:1.8"><use href="#i-files"/></svg><span data-i18n="files.title">فایل‌ها</span></h1>
+        <p data-i18n="files.sub">فایل‌های محلی خود را وارد، ویرایش و خروجی بگیرید.</p>
+        <div class="toolbar">
+          <button class="mini-btn accent" id="importFileBtn"><svg><use href="#i-plus"/></svg><span data-i18n="files.import">ورود فایل</span></button>
+          <button class="mini-btn" id="newFileBtn"><svg><use href="#i-file"/></svg><span data-i18n="files.new">فایل جدید</span></button>
+          <button class="mini-btn" id="exportAllBtn"><svg><use href="#i-download"/></svg><span data-i18n="files.exportAll">خروجی همه</span></button>
+        </div>
+      </div>
+      <div class="files-grid" id="filesGrid"></div>
+    </section>
+
+    <!-- ---------- SETTINGS ---------- -->
+    <section class="view" id="view-settings">
+      <div class="view-head">
+        <h1><svg style="width:22px;height:22px;stroke:var(--accent-2);fill:none;stroke-width:1.8"><use href="#i-settings"/></svg><span data-i18n="settings.title">تنظیمات</span></h1>
+        <p data-i18n="settings.sub">همه چیز محلی ذخیره می‌شود. کلیدهای تولیدی هرگز در این فایل قرار نمی‌گیرند.</p>
+      </div>
+      <div class="settings-scroll">
+        <div class="settings-inner" id="settingsInner"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== BOTTOM NAV ===================== -->
+<nav class="bottomnav" id="bottomNav" aria-label="ناوبری موبایل">
+  <button class="bnav" data-nav="chat"><svg><use href="#i-chat"/></svg><span data-i18n="nav.chat">چت</span></button>
+  <button class="bnav" data-nav="models"><svg><use href="#i-models"/></svg><span data-i18n="nav.models">مدل‌ها</span></button>
+  <button class="bnav" data-nav="canvas"><svg><use href="#i-canvas"/></svg><span data-i18n="nav.canvas">کانواس</span></button>
+  <button class="bnav" data-nav="files"><svg><use href="#i-files"/></svg><span data-i18n="nav.files">فایل‌ها</span></button>
+  <button class="bnav" data-nav="settings"><svg><use href="#i-settings"/></svg><span data-i18n="nav.settings">تنظیمات</span></button>
+</nav>
+
+<!-- ===================== OVERLAYS ===================== -->
+<div class="dropzone" id="dropzone">
+  <div class="dz-inner">
+    <div style="font-size:38px">📥</div>
+    <h3 data-i18n="drop.title">فایل را اینجا رها کن</h3>
+    <p data-i18n="drop.sub">HTML، CSS، JS، JSON، TXT، MD، SVG یا تصویر</p>
+  </div>
+</div>
+
+<div class="modal-back" id="modalBack"><div class="modal" id="modalHost"></div></div>
+<div class="menu-pop" id="popMenu"></div>
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+<input type="file" id="fileInput" multiple class="hidden" />
+<input type="file" id="imageInput" accept="image/*" class="hidden" />
+
+<script>
+"use strict";
+/* ============================================================================
+   NONO AI — Single File Application
+   ============================================================================ */
+(function(){
+
+/* ------------------------------ 0. Utils ---------------------------------- */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const uid = (p='id') => p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const escapeHtml = s => String(s==null?'':s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const debounce = (fn, ms=250) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; };
+const sleep = ms => new Promise(r=>setTimeout(r, ms));
+const now = () => Date.now();
+
+/* ------------------------------ 1. i18n ----------------------------------- */
+const I18N = {
+  fa: {
+    "tagline":"همه مدل‌ها، یک گفت‌وگو",
+    "nav.home":"خانه","nav.chat":"چت","nav.models":"مدل‌ها","nav.canvas":"کانواس","nav.files":"فایل‌ها","nav.settings":"تنظیمات",
+    "theme":"تاریک","theme.light":"روشن",
+    "home.greet":"سلام","home.sub":"امروز چه کاری برات انجام بدم؟","home.start":"شروع چت","home.providers":"ارائه‌دهندگان",
+    "quick.newChat":"چت جدید","quick.newChatSub":"گفت‌وگوی تازه","quick.canvasSub":"فضای ویرایش","quick.code":"کدنویسی",
+    "quick.codeSub":"HTML / CSS / JS","quick.write":"نوشتن","quick.writeSub":"متن و مقاله","quick.previewSub":"پیش‌نمایش زنده",
+    "quick.file":"فایل","quick.fileSub":"ورود و ویرایش",
+    "demo.badge":"حالت نمایشی — پاسخ‌ها نمونه هستند",
+    "layout.chat":"چت","layout.split":"دوطرفه","layout.canvas":"کانواس","layout.preview":"پیش‌نمایش",
+    "chat.auto":"حالت خودکار","chat.hint":"Enter ارسال • Shift+Enter خط جدید",
+    "chat.placeholder":"پیامت رو بنویس...","chat.empty":"شروع یک گفت‌وگوی تازه",
+    "chat.emptySub":"یک مدل انتخاب کن و هر سؤالی داری بپرس. اگر مدلی در دسترس نباشد، خودکار مدل دیگری امتحان می‌شود.",
+    "msg.copy":"کپی","msg.regen":"تولید مجدد","msg.edit":"ویرایش","msg.delete":"حذف","msg.share":"اشتراک","msg.retry":"تلاش مجدد",
+    "msg.showMore":"نمایش بیشتر ↓","msg.showLess":"نمایش کمتر ↑","msg.toCanvas":"باز کردن در کانواس",
+    "msg.copied":"کپی شد","msg.deleted":"پیام حذف شد","msg.shared":"متن اشتراک کپی شد",
+    "status.ready":"آماده","status.thinking":"در حال فکر کردن…","status.streaming":"در حال نوشتن…","status.finding":"در حال پیدا کردن یک مدل در دسترس…",
+    "failover.label":"پاسخ با","failover.ready":"✓ پاسخ آماده است","failover.retrying":"این مدل فعلاً پاسخ نمی‌دهد. دارم مدل دیگری را امتحان می‌کنم…",
+    "models.title":"مدیریت مدل‌ها","models.count":"مدل ثبت‌شده","models.unlimited":"معماری برای هزاران مدل",
+    "models.add":"افزودن مدل","models.search":"جستجوی مدل...","models.all":"همه",
+    "models.empty":"مدلی با این مشخصات پیدا نشد.",
+    "models.test":"آزمایش","models.edit":"ویرایش","models.delete":"حذف","models.enabled":"فعال",
+    "models.testing":"در حال آزمایش…","models.testOk":"مدل پاسخ داد ✓","models.testFail":"مدل پاسخ نداد",
+    "models.deleted":"مدل حذف شد","models.saved":"مدل ذخیره شد",
+    "form.name":"نام مدل","form.provider":"ارائه‌دهنده","form.modelId":"شناسه مدل","form.baseUrl":"آدرس پایه (Base URL)",
+    "form.caps":"قابلیت‌ها","form.streaming":"پخش جریانی (Streaming)","form.priority":"اولویت (کمتر = زودتر)",
+    "form.timeout":"مهلت (میلی‌ثانیه)","form.auth":"حالت احراز هویت","form.enabled":"فعال باشد",
+    "form.save":"ذخیره","form.cancel":"انصراف","form.newTitle":"افزودن مدل جدید","form.editTitle":"ویرایش مدل",
+    "files.title":"فایل‌ها","files.sub":"فایل‌های محلی خود را وارد، ویرایش و خروجی بگیرید.",
+    "files.import":"ورود فایل","files.new":"فایل جدید","files.exportAll":"خروجی همه","files.empty":"هنوز فایلی وارد نکرده‌اید.",
+    "files.open":"باز کردن","files.download":"دانلود","files.rename":"تغییر نام","files.duplicate":"کپی","files.delete":"حذف",
+    "files.renamed":"نام تغییر کرد","files.deleted":"فایل حذف شد","files.imported":"فایل وارد شد","files.name":"نام فایل",
+    "canvas.title":"کانواس","canvas.untitled":"بدون عنوان","canvas.new":"کانواس جدید",
+    "canvas.empty":"کانواس خالی است","canvas.emptySub":"یک سند جدید بساز یا پاسخ هوش مصنوعی را به کانواس بفرست.",
+    "canvas.write":"✍️ نوشتن","canvas.code":"💻 کد","canvas.preview":"🌐 پیش‌نمایش",
+    "canvas.run":"اجرا","canvas.refresh":"تازه‌سازی","canvas.open":"باز کردن","canvas.export":"خروجی",
+    "canvas.save":"ذخیره","canvas.saved":"ذخیره شد","canvas.duplicate":"کپی سند","canvas.versions":"نسخه‌ها",
+    "canvas.undo":"واگرد","canvas.redo":"ازنو","canvas.find":"یافتن و جایگزینی","canvas.selectAll":"انتخاب همه",
+    "canvas.version":"نسخه","canvas.restore":"بازگردانی","canvas.compare":"مقایسه","canvas.noVersions":"هنوز نسخه‌ای ثبت نشده.",
+    "sel.label":"انتخاب‌شده:","sel.fix":"اصلاح کن","sel.shorten":"کوتاه کن","sel.expand":"گسترش بده","sel.rewrite":"بازنویسی",
+    "sel.translate":"ترجمه","sel.explain":"توضیح بده","sel.improve":"بهترش کن","sel.toCode":"تبدیل به کد","sel.delete":"حذف","sel.continue":"ادامه بده",
+    "settings.title":"تنظیمات","settings.sub":"همه چیز محلی ذخیره می‌شود. کلیدهای تولیدی هرگز در این فایل قرار نمی‌گیرند.",
+    "settings.general":"عمومی","settings.chat":"چت","settings.models":"مدل‌ها","settings.canvas":"کانواس","settings.advanced":"پیشرفته",
+    "settings.language":"زبان","settings.languageSub":"فارسی (راست‌به‌چپ) یا انگلیسی (چپ‌به‌راست)",
+    "settings.theme":"پوسته","settings.themeSub":"حالت تاریک یا روشن",
+    "settings.collapse":"جمع‌شدن خودکار پیام‌های بلند","settings.collapseSub":"پاسخ‌های طولانی به‌صورت فشرده نمایش داده می‌شوند",
+    "settings.collapseAfter":"آستانه جمع‌شدن (کاراکتر)","settings.previewChars":"تعداد کاراکتر پیش‌نمایش",
+    "settings.streaming":"پخش جریانی پاسخ","settings.streamingSub":"پاسخ به‌صورت تدریجی نوشته می‌شود",
+    "settings.defaultModel":"مدل پیش‌فرض","settings.autoMode":"حالت خودکار","settings.autoModeSub":"انتخاب هوشمند بهترین مدل برای هر کار",
+    "settings.failover":"جابه‌جایی خودکار","settings.failoverSub":"در صورت خطا مدل بعدی امتحان می‌شود",
+    "settings.maxAttempts":"حداکثر تلاش","settings.timeout":"مهلت درخواست (میلی‌ثانیه)",
+    "settings.canvasDefault":"حالت پیش‌فرض کانواس","settings.autoSave":"ذخیره خودکار","settings.previewAuto":"اجرای خودکار پیش‌نمایش",
+    "settings.gateway":"آدرس Cloudflare Gateway","settings.gatewaySub":"درخواست‌ها از مرورگر → Worker → ارائه‌دهنده ارسال می‌شوند. کلیدها فقط در سمت Worker قرار دارند.",
+    "settings.debug":"حالت اشکال‌زدایی","settings.clear":"پاک کردن داده‌های محلی","settings.clearSub":"همه گفت‌وگوها، کانواس‌ها و تنظیمات حذف می‌شوند",
+    "settings.clearBtn":"پاک کن","settings.cleared":"داده‌ها پاک شد","settings.confirmClear":"همه داده‌های محلی پاک شود؟",
+    "settings.saved":"ذخیره شد","settings.storage":"حجم ذخیره‌سازی",
+    "voice.unsupported":"مرورگر شما از ورودی صوتی پشتیبانی نمی‌کند.","voice.listening":"در حال شنیدن…","voice.done":"تشخیص داده شد",
+    "vision.unsupported":"این مدل از تصویر پشتیبانی نمی‌کند.","vision.supported":"مدل از تصویر پشتیبانی می‌کند",
+    "err.generic":"مشکلی پیش آمد. دوباره تلاش کن.","err.noModel":"هیچ مدل فعالی وجود ندارد. از بخش مدل‌ها یکی را فعال کن.",
+    "err.allFailed":"در حال حاضر هیچ مدلی پاسخ نمی‌دهد. لطفاً بعداً تلاش کن.",
+    "err.timeout":"پاسخی دریافت نشد. دارم مدل دیگری را امتحان می‌کنم…",
+    "err.network":"اتصال برقرار نشد. دارم مدل دیگری را امتحان می‌کنم…",
+    "err.rate":"این مدل شلوغ است. مدل دیگری را امتحان می‌کنم…",
+    "err.auth":"دسترسی این مدل تنظیم نشده است.","err.server":"این مدل فعلاً پاسخ نمی‌دهد.",
+    "toast.saved":"ذخیره شد","toast.error":"خطا","toast.copied":"کپی شد",
+    "newchat":"گفت‌وگوی جدید","menu.newChat":"گفت‌وگوی جدید","menu.clearChat":"پاک کردن گفت‌وگو",
+    "menu.exportChat":"خروجی گفت‌وگو","menu.openCanvas":"باز کردن کانواس","menu.settings":"تنظیمات",
+    "menu.rename":"تغییر نام گفت‌وگو","menu.renamePrompt":"نام جدید گفت‌وگو:",
+    "sugg.1":"یک ایمیل حرفه‌ای برای درخواست مرخصی بنویس",
+    "sugg.2":"یک صفحه فرود HTML با CSS بساز",
+    "sugg.3":"این متن را کوتاه‌تر و روان‌تر کن",
+    "sugg.4":"تفاوت مدل‌های زبانی و چندوجهی چیست؟",
+    "canvasHint.write":"متن خود را اینجا بنویس…","canvasHint.code":"کد خود را اینجا بنویس…",
+    "preview.noHtml":"برای پیش‌نمایش، سند باید شامل HTML باشد.",
+    "preview.running":"پیش‌نمایش اجرا شد"
+  },
+  en: {
+    "tagline":"All AI models. One conversation.",
+    "nav.home":"Home","nav.chat":"Chat","nav.models":"Models","nav.canvas":"Canvas","nav.files":"Files","nav.settings":"Settings",
+    "theme":"Dark","theme.light":"Light",
+    "home.greet":"Hello","home.sub":"What can I do for you today?","home.start":"Start Chat","home.providers":"Providers",
+    "quick.newChat":"New Chat","quick.newChatSub":"Fresh conversation","quick.canvasSub":"Editing workspace","quick.code":"Coding",
+    "quick.codeSub":"HTML / CSS / JS","quick.write":"Writing","quick.writeSub":"Text & articles","quick.previewSub":"Live preview",
+    "quick.file":"File","quick.fileSub":"Import & edit",
+    "demo.badge":"Demo Mode — responses are simulated",
+    "layout.chat":"Chat","layout.split":"Split","layout.canvas":"Canvas","layout.preview":"Preview",
+    "chat.auto":"Auto Mode","chat.hint":"Enter to send • Shift+Enter for newline",
+    "chat.placeholder":"Write your message...","chat.empty":"Start a new conversation",
+    "chat.emptySub":"Pick a model and ask anything. If one fails, another is tried automatically.",
+    "msg.copy":"Copy","msg.regen":"Regenerate","msg.edit":"Edit","msg.delete":"Delete","msg.share":"Share","msg.retry":"Retry",
+    "msg.showMore":"Show more ↓","msg.showLess":"Show less ↑","msg.toCanvas":"Open in Canvas",
+    "msg.copied":"Copied","msg.deleted":"Message deleted","msg.shared":"Share text copied",
+    "status.ready":"Ready","status.thinking":"Thinking…","status.streaming":"Writing…","status.finding":"Finding an available model…",
+    "failover.label":"Answered by","failover.ready":"✓ Answer ready","failover.retrying":"This model isn't responding. Trying another model…",
+    "models.title":"Model Manager","models.count":"registered models","models.unlimited":"Built for thousands of models",
+    "models.add":"Add Model","models.search":"Search models...","models.all":"All",
+    "models.empty":"No model matches these filters.",
+    "models.test":"Test","models.edit":"Edit","models.delete":"Delete","models.enabled":"Enabled",
+    "models.testing":"Testing…","models.testOk":"Model responded ✓","models.testFail":"Model did not respond",
+    "models.deleted":"Model deleted","models.saved":"Model saved",
+    "form.name":"Model name","form.provider":"Provider","form.modelId":"Model ID","form.baseUrl":"Base URL",
+    "form.caps":"Capabilities","form.streaming":"Streaming","form.priority":"Priority (lower = earlier)",
+    "form.timeout":"Timeout (ms)","form.auth":"Auth mode","form.enabled":"Enabled",
+    "form.save":"Save","form.cancel":"Cancel","form.newTitle":"Add new model","form.editTitle":"Edit model",
+    "files.title":"Files","files.sub":"Import, edit and export your local files.",
+    "files.import":"Import File","files.new":"New File","files.exportAll":"Export All","files.empty":"No files imported yet.",
+    "files.open":"Open","files.download":"Download","files.rename":"Rename","files.duplicate":"Duplicate","files.delete":"Delete",
+    "files.renamed":"Renamed","files.deleted":"File deleted","files.imported":"File imported","files.name":"File name",
+    "canvas.title":"Canvas","canvas.untitled":"Untitled","canvas.new":"New Canvas",
+    "canvas.empty":"Canvas is empty","canvas.emptySub":"Create a new document or send an AI answer to Canvas.",
+    "canvas.write":"✍️ Write","canvas.code":"💻 Code","canvas.preview":"🌐 Preview",
+    "canvas.run":"Run","canvas.refresh":"Refresh","canvas.open":"Open","canvas.export":"Export",
+    "canvas.save":"Save","canvas.saved":"Saved","canvas.duplicate":"Duplicate","canvas.versions":"Versions",
+    "canvas.undo":"Undo","canvas.redo":"Redo","canvas.find":"Find & Replace","canvas.selectAll":"Select all",
+    "canvas.version":"Version","canvas.restore":"Restore","canvas.compare":"Compare","canvas.noVersions":"No versions yet.",
+    "sel.label":"Selected:","sel.fix":"Fix","sel.shorten":"Shorten","sel.expand":"Expand","sel.rewrite":"Rewrite",
+    "sel.translate":"Translate","sel.explain":"Explain","sel.improve":"Improve","sel.toCode":"To code","sel.delete":"Delete","sel.continue":"Continue",
+    "settings.title":"Settings","settings.sub":"Everything is stored locally. Production keys never live in this file.",
+    "settings.general":"General","settings.chat":"Chat","settings.models":"Models","settings.canvas":"Canvas","settings.advanced":"Advanced",
+    "settings.language":"Language","settings.languageSub":"Persian (RTL) or English (LTR)",
+    "settings.theme":"Theme","settings.themeSub":"Dark or light appearance",
+    "settings.collapse":"Auto-collapse long messages","settings.collapseSub":"Long responses are shown compactly",
+    "settings.collapseAfter":"Collapse after (characters)","settings.previewChars":"Preview characters",
+    "settings.streaming":"Stream responses","settings.streamingSub":"Answer appears progressively",
+    "settings.defaultModel":"Default model","settings.autoMode":"Auto Mode","settings.autoModeSub":"Smart routing for every task",
+    "settings.failover":"Automatic failover","settings.failoverSub":"Try the next model on failure",
+    "settings.maxAttempts":"Max attempts","settings.timeout":"Request timeout (ms)",
+    "settings.canvasDefault":"Default canvas mode","settings.autoSave":"Auto-save","settings.previewAuto":"Auto-run preview",
+    "settings.gateway":"Cloudflare Gateway URL","settings.gatewaySub":"Requests go Browser → Worker → Provider. Keys stay in the Worker.",
+    "settings.debug":"Debug mode","settings.clear":"Clear local data","settings.clearSub":"Removes all conversations, canvases and settings",
+    "settings.clearBtn":"Clear","settings.cleared":"Local data cleared","settings.confirmClear":"Clear all local data?",
+    "settings.saved":"Saved","settings.storage":"Storage used",
+    "voice.unsupported":"Your browser does not support voice input.","voice.listening":"Listening…","voice.done":"Recognized",
+    "vision.unsupported":"This model does not support images.","vision.supported":"Model supports images",
+    "err.generic":"Something went wrong. Please try again.","err.noModel":"No enabled model. Enable one in Models.",
+    "err.allFailed":"No model is responding right now. Please try later.",
+    "err.timeout":"No response. Trying another model…","err.network":"Connection failed. Trying another model…",
+    "err.rate":"This model is busy. Trying another model…","err.auth":"This model isn't configured.",
+    "err.server":"This model isn't responding right now.",
+    "toast.saved":"Saved","toast.error":"Error","toast.copied":"Copied",
+    "newchat":"New conversation","menu.newChat":"New conversation","menu.clearChat":"Clear conversation",
+    "menu.exportChat":"Export conversation","menu.openCanvas":"Open Canvas","menu.settings":"Settings",
+    "menu.rename":"Rename conversation","menu.renamePrompt":"New conversation title:",
+    "sugg.1":"Write a professional leave-request email",
+    "sugg.2":"Build an HTML landing page with CSS",
+    "sugg.3":"Shorten and polish this text",
+    "sugg.4":"What is the difference between language and multimodal models?",
+    "canvasHint.write":"Write your text here…","canvasHint.code":"Write your code here…",
+    "preview.noHtml":"The document must contain HTML to preview.",
+    "preview.running":"Preview running"
+  }
+};
+let LANG = 'fa';
+function t(key, fallback){
+  const dict = I18N[LANG] || I18N.fa;
+  return dict[key] != null ? dict[key] : (I18N.fa[key] != null ? I18N.fa[key] : (fallback != null ? fallback : key));
+}
+
+/* ------------------------------ 2. Store ---------------------------------- */
+const LS_KEY = 'nonoai.v2';
+const DEFAULT_SETTINGS = {
+  autoCollapse: true,
+  collapseAfterCharacters: 1800,
+  previewCharacters: 500,
+  streaming: true,
+  autoMode: true,
+  failover: true,
+  maxAttempts: 5,
+  timeoutMs: 30000,
+  defaultModel: null,
+  canvasDefaultMode: 'write',
+  autoSave: true,
+  previewAutoRun: true,
+  gatewayUrl: '',
+  debug: false,
+  splitRatio: 0.52
+};
+
+const Store = {
+  data: null,
+  load(){
+    let raw = null;
+    try { raw = localStorage.getItem(LS_KEY); } catch(e){}
+    let parsed = null;
+    if (raw) { try { parsed = JSON.parse(raw); } catch(e){ parsed = null; } }
+    const base = {
+      version: 2,
+      theme: 'dark',
+      lang: 'fa',
+      conversations: [],
+      activeConversation: null,
+      canvasDocs: [],
+      canvasVersions: {},
+      activeCanvas: null,
+      models: null,
+      files: [],
+      settings: Object.assign({}, DEFAULT_SETTINGS),
+      health: {},
+      ui: { layout: 'chat', nav: 'home' }
+    };
+    this.data = Object.assign(base, parsed || {});
+    this.data.settings = Object.assign({}, DEFAULT_SETTINGS, this.data.settings || {});
+    if (!Array.isArray(this.data.conversations)) this.data.conversations = [];
+    if (!Array.isArray(this.data.canvasDocs)) this.data.canvasDocs = [];
+    if (!Array.isArray(this.data.files)) this.data.files = [];
+    if (!this.data.canvasVersions || typeof this.data.canvasVersions !== 'object') this.data.canvasVersions = {};
+    if (!this.data.health || typeof this.data.health !== 'object') this.data.health = {};
+    return this.data;
+  },
+  save: debounce(function(){
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(Store.data));
+    } catch(e){
+      console.warn('Storage full or unavailable', e);
+    }
+  }, 350),
+  saveNow(){
+    try { localStorage.setItem(LS_KEY, JSON.stringify(Store.data)); } catch(e){}
+  },
+  size(){
+    try { return new Blob([localStorage.getItem(LS_KEY) || '']).size; } catch(e){ return 0; }
+  }
+};
+
+/* ------------------------------ 3. Providers ------------------------------ */
+const PROVIDERS = {
+  openai:     { id:'openai',     name:'OpenAI',       short:'OA', color:'#10A37F', family:'GPT',      endpoint:'https://api.openai.com/v1/chat/completions' },
+  google:     { id:'google',     name:'Google',       short:'GG', color:'#4285F4', family:'Gemini',   endpoint:'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions' },
+  xai:        { id:'xai',        name:'xAI',          short:'XA', color:'#9CA3AF', family:'Grok',     endpoint:'https://api.x.ai/v1/chat/completions' },
+  anthropic:  { id:'anthropic',  name:'Anthropic',    short:'AN', color:'#D97757', family:'Claude',   endpoint:'https://api.anthropic.com/v1/messages' },
+  huggingface:{ id:'huggingface',name:'Hugging Face', short:'HF', color:'#FFD21E', family:'Hosted',   endpoint:'https://router.huggingface.co/v1/chat/completions' },
+  openrouter: { id:'openrouter', name:'OpenRouter',   short:'OR', color:'#8B5CF6', family:'Multi',    endpoint:'https://openrouter.ai/api/v1/chat/completions' },
+  custom:     { id:'custom',     name:'Custom',       short:'CU', color:'#22D3EE', family:'OpenAI-compatible', endpoint:'' }
+};
+function providerOf(id){ return PROVIDERS[id] || PROVIDERS.custom; }
+
+/* ------------------------------ 4. Models --------------------------------- */
+/* MODEL_REGISTRY is the runtime list (hydrated from storage or defaults).
+   The architecture supports 10, 100, 1000+ models with virtualized rendering. */
+let MODEL_REGISTRY = [];
+
+const CAPABILITY_LABELS = {
+  text:'متن', code:'کد', vision:'تصویر', long:'بافت بلند', fast:'سریع', free:'رایگان', reason:'استدلال'
+};
+
+function defaultModels(){
+  const m = [];
+  const push = (provider, modelId, name, priority, caps, ctx, extra={}) => {
+    m.push(Object.assign({
+      id: uid('mdl'),
+      name,
+      provider,
+      modelId,
+      endpoint: providerOf(provider).endpoint,
+      enabled: true,
+      priority,
+      capabilities: caps,
+      streaming: true,
+      contextWindow: ctx,
+      timeout: 30000,
+      auth: 'gateway'
+    }, extra));
+  };
+  // OpenAI
+  push('openai','gpt-4o','GPT-4o',10,['text','code','vision','long'],128000);
+  push('openai','gpt-4o-mini','GPT-4o mini',12,['text','code','vision','fast','free'],128000);
+  push('openai','gpt-4.1','GPT-4.1',11,['text','code','long'],1000000);
+  push('openai','o4-mini','o4-mini',13,['text','code','reason','fast'],200000);
+  // Google
+  push('google','gemini-2.0-flash','Gemini 2.0 Flash',20,['text','code','vision','fast','free'],1000000);
+  push('google','gemini-1.5-pro','Gemini 1.5 Pro',22,['text','code','vision','long'],2000000);
+  push('google','gemini-2.5-pro','Gemini 2.5 Pro',21,['text','code','vision','reason','long'],1000000);
+  // xAI
+  push('xai','grok-3','Grok 3',30,['text','code','reason'],131072);
+  push('xai','grok-2-1212','Grok 2',32,['text','code','vision'],131072);
+  push('xai','grok-3-mini','Grok 3 mini',31,['text','fast','free'],131072);
+  // Anthropic
+  push('anthropic','claude-3-7-sonnet-latest','Claude 3.7 Sonnet',40,['text','code','vision','reason','long'],200000);
+  push('anthropic','claude-3-5-haiku-latest','Claude 3.5 Haiku',42,['text','code','fast'],200000);
+  push('anthropic','claude-3-5-sonnet-latest','Claude 3.5 Sonnet',41,['text','code','vision'],200000);
+  // Hugging Face
+  push('huggingface','meta-llama/Llama-3.3-70B-Instruct','Llama 3.3 70B',50,['text','code','free'],131072);
+  push('huggingface','Qwen/Qwen2.5-72B-Instruct','Qwen 2.5 72B',51,['text','code','free'],32768);
+  push('huggingface','mistralai/Mistral-7B-Instruct-v0.3','Mistral 7B',53,['text','fast','free'],32768);
+  // OpenRouter
+  push('openrouter','openrouter/auto','OpenRouter Auto',60,['text','code','vision'],128000);
+  push('openrouter','deepseek/deepseek-chat','DeepSeek Chat',61,['text','code','free'],64000);
+  push('openrouter','meta-llama/llama-3.1-405b-instruct','Llama 3.1 405B',62,['text','code','long'],128000);
+  return m;
+}
+
+function hydrateModels(){
+  const stored = Store.data.models;
+  if (Array.isArray(stored) && stored.length) {
+    MODEL_REGISTRY = stored;
+  } else {
+    MODEL_REGISTRY = defaultModels();
+    Store.data.models = MODEL_REGISTRY;
+    Store.save();
+  }
+  // Ensure every model has an id and sane defaults
+  MODEL_REGISTRY.forEach((m, i) => {
+    if (!m.id) m.id = uid('mdl');
+    if (m.priority == null) m.priority = (i+1) * 10;
+    if (m.enabled == null) m.enabled = true;
+    if (!Array.isArray(m.capabilities)) m.capabilities = ['text'];
+    if (!m.endpoint) m.endpoint = providerOf(m.provider).endpoint;
+    if (!m.timeout) m.timeout = 30000;
+    if (m.streaming == null) m.streaming = true;
+    if (m.contextWindow == null) m.contextWindow = 32000;
+  });
+}
+function persistModels(){ Store.data.models = MODEL_REGISTRY; Store.save(); }
+function findModel(id){ return MODEL_REGISTRY.find(m => m.id === id) || null; }
+
+/* ------------------------------ 5. Health -------------------------------- */
+const Health = {
+  get(id){
+    if (!Store.data.health[id]) {
+      Store.data.health[id] = { ok:0, fails:0, timeouts:0, lastOk:0, lastFail:0, avgMs:0, lastErr:null };
+    }
+    return Store.data.health[id];
+  },
+  recordOk(id, ms){
+    const h = this.get(id);
+    h.ok++; h.lastOk = now();
+    h.avgMs = h.avgMs ? Math.round(h.avgMs * 0.7 + ms * 0.3) : ms;
+    Store.save();
+  },
+  recordFail(id, kind){
+    const h = this.get(id);
+    h.fails++; h.lastFail = now(); h.lastErr = kind || 'error';
+    if (kind === 'timeout') h.timeouts++;
+    Store.save();
+  },
+  penalty(id){
+    const h = this.get(id);
+    let p = 0;
+    const sinceFail = now() - (h.lastFail || 0);
+    if (h.lastFail && sinceFail < 5 * 60 * 1000) p += 45 * (1 - sinceFail / (5*60*1000)); // recent failure penalty
+    p += Math.min(h.fails, 8) * 3;
+    if (h.avgMs > 8000) p += 12;
+    else if (h.avgMs > 4000) p += 5;
+    return p;
+  },
+  isHealthy(id){
+    const h = this.get(id);
+    if (!h.lastFail) return true;
+    return (now() - h.lastFail) > 90 * 1000 || h.fails < 2;
+  }
+};
+
+/* ------------------------------ 6. Router / Failover ---------------------- */
+const FAILOVER_CONFIG = {
+  enabled: true,
+  maxAttempts: 5,
+  timeoutMs: 30000
+};
+
+const TASK_SIGNALS = {
+  code:   /(کد|cod(e|ing)|برنامه|اسکریپت|تابع|html|css|javascript|js|python|پایتون|react|api|svg|json|باگ|debug|function|class|sql)/i,
+  vision: /(تصویر|عکس|image|photo|picture|اسکرین|screenshot|نمودار|chart)/i,
+  long:   /(بلند|طولانی|کتاب|مقاله|سند|document|long|chapter|فصل|تحلیل|analyze|بررسی کامل)/i,
+  write:  /(بنویس|متن|مقاله|ایمیل|نامه|شعر|داستان|write|essay|email|story|poem|caption|کپشن|ترجمه|translate)/i,
+  fast:   /(سریع|کوتاه|خلاصه|fast|quick|short|summary|تک‌خطی)/i
+};
+
+function detectTask(text, attachments){
+  if (attachments && attachments.some(a => a.kind === 'image')) return 'vision';
+  const s = (text || '');
+  if (TASK_SIGNALS.code.test(s)) return 'code';
+  if (TASK_SIGNALS.vision.test(s)) return 'vision';
+  if (TASK_SIGNALS.long.test(s)) return 'long';
+  if (TASK_SIGNALS.write.test(s)) return 'write';
+  if (TASK_SIGNALS.fast.test(s)) return 'fast';
+  return 'text';
+}
+
+function scoreModel(model, task, preferredId){
+  let score = (model.priority || 100);
+  const caps = model.capabilities || [];
+  const hasVision = caps.includes('vision');
+
+  if (task === 'code' && caps.includes('code')) score -= 22;
+  if (task === 'vision' && hasVision) score -= 40;
+  if (task === 'vision' && !hasVision) score += 400;      // hard deprioritize
+  if (task === 'long' && caps.includes('long')) score -= 18;
+  if (task === 'write' && caps.includes('text')) score -= 10;
+  if (task === 'fast' && caps.includes('fast')) score -= 14;
+  if (task === 'text' && caps.includes('text')) score -= 6;
+  if (caps.includes('free')) score -= 3;
+  if (model.streaming) score -= 2;
+
+  if (preferredId && model.id === preferredId) score -= 60;
+
+  score += Health.penalty(model.id);
+  return score;
+}
+
+function buildRoutingQueue({ preferredId, task, needsVision }){
+  let pool = MODEL_REGISTRY.filter(m => m.enabled);
+  if (needsVision) pool = pool.filter(m => (m.capabilities||[]).includes('vision'));
+  if (!pool.length) pool = MODEL_REGISTRY.filter(m => m.enabled);
+  if (!pool.length) return [];
+
+  const auto = Store.data.settings.autoMode;
+  const scored = pool.map(m => ({ m, s: scoreModel(m, task, auto ? null : preferredId) }));
+  scored.sort((a,b) => a.s - b.s);
+
+  let queue = scored.map(x => x.m);
+  // If Auto Mode is off and a preferred model exists, it goes first (if available)
+  if (!auto && preferredId) {
+    const pref = findModel(preferredId);
+    if (pref && pref.enabled) {
+      queue = [pref, ...queue.filter(m => m.id !== pref.id)];
+    }
+  }
+  const max = Store.data.settings.failover ? Math.max(1, Store.data.settings.maxAttempts || FAILOVER_CONFIG.maxAttempts) : 1;
+  return queue.slice(0, max);
+}
+
+/* ------------------------------ 7. Universal AI request ------------------- */
+/**
+ * Unified frontend request. The gateway (Cloudflare Worker) decides provider,
+ * credentials, routing, failover, timeout and streaming.
+ * In Demo Mode (no gateway URL) a local simulator produces sample output.
+ */
+async function sendAIRequest(opts){
+  const {
+    model, messages, canvas, attachments, mode,
+    onDelta, onAttempt, signal
+  } = opts;
+
+  const settings = Store.data.settings;
+  const lastUser = [...messages].reverse().find(m => m.role === 'user');
+  const task = detectTask(lastUser ? lastUser.content : '', attachments);
+  const needsVision = !!(attachments && attachments.some(a => a.kind === 'image'));
+
+  const queue = buildRoutingQueue({ preferredId: model ? model.id : settings.defaultModel, task, needsVision });
+
+  if (!queue.length){
+    return { ok:false, error: t('err.noModel'), code:'no_model' };
+  }
+
+  const isDemo = !settings.gatewayUrl || !/^https?:\/\//.test(settings.gatewayUrl);
+  let lastError = null;
+  let attempts = 0;
+
+  for (const candidate of queue){
+    if (signal && signal.aborted) return { ok:false, aborted:true, error:'aborted' };
+    attempts++;
+    if (onAttempt) onAttempt({ model: candidate, attempt: attempts, total: queue.length });
+
+    const started = now();
+    try {
+      if (isDemo){
+        const result = await demoAttempt(candidate, { messages, canvas, attachments, mode, onDelta, signal, task });
+        Health.recordOk(candidate.id, now() - started);
+        return { ok:true, text: result.text, model: candidate, provider: candidate.provider, demo:true, canvasPatch: result.canvasPatch };
+      } else {
+        const result = await gatewayAttempt(candidate, { messages, canvas, attachments, mode, onDelta, signal, settings });
+        Health.recordOk(candidate.id, now() - started);
+        return { ok:true, text: result.text, model: candidate, provider: candidate.provider, demo:false, canvasPatch: result.canvasPatch };
+      }
+    } catch(err){
+      if (err && err.name === 'AbortError'){
+        return { ok:false, aborted:true, error:'aborted' };
+      }
+      const kind = classifyError(err);
+      Health.recordFail(candidate.id, kind);
+      lastError = err;
+      if (settings.debug) console.warn('[NONO] model failed:', candidate.name, kind, err);
+      // Do not repeatedly retry invalid credentials → skip remaining models of same provider+auth
+      if (kind === 'auth'){
+        // mark model unhealthy for a while
+        continue;
+      }
+      if (signal && signal.aborted) return { ok:false, aborted:true, error:'aborted' };
+      continue;
+    }
+  }
+
+  return { ok:false, error: friendlyError(lastError), code:'all_failed' };
+}
+
+function classifyError(err){
+  if (!err) return 'unknown';
+  if (err.name === 'AbortError') return 'abort';
+  const status = err.status || 0;
+  if (status === 401 || status === 403) return 'auth';
+  if (status === 429) return 'rate';
+  if (status >= 500) return 'server';
+  if (err.kind === 'timeout') return 'timeout';
+  if (err.kind === 'network') return 'network';
+  if (err.message && /timeout/i.test(err.message)) return 'timeout';
+  if (err.message && /fetch|network/i.test(err.message)) return 'network';
+  return 'unknown';
+}
+
+function friendlyError(err){
+  const kind = classifyError(err);
+  switch(kind){
+    case 'timeout': return t('err.timeout');
+    case 'rate': return t('err.rate');
+    case 'auth': return t('err.auth');
+    case 'network': return t('err.network');
+    case 'server': return t('err.server');
+    default: return t('err.allFailed');
+  }
+}
+
+/* ---- Real gateway attempt (streaming SSE or JSON) ---- */
+async function gatewayAttempt(model, ctx){
+  const { messages, canvas, attachments, mode, onDelta, signal, settings } = ctx;
+  const base = settings.gatewayUrl.replace(/\/+$/,'');
+  const url = base + '/v1/chat';
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), Math.max(3000, model.timeout || settings.timeoutMs || 30000));
+  const onOuterAbort = () => controller.abort();
+  if (signal) signal.addEventListener('abort', onOuterAbort, { once:true });
+
+  const payload = {
+    model: model.modelId,
+    provider: model.provider,
+    endpoint: model.endpoint,
+    stream: !!settings.streaming && model.streaming !== false,
+    messages: messages.map(m => ({ role: m.role, content: m.content })),
+    canvas: canvas ? { id: canvas.id, type: canvas.type, content: canvas.content } : null,
+    attachments: (attachments || []).map(a => ({ kind: a.kind, name: a.name, mime: a.mime, data: a.data })),
+    mode: mode || 'chat',
+    options: { temperature: 0.7 }
+  };
+
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+  } catch(e){
+    clearTimeout(timeoutId);
+    if (signal) signal.removeEventListener('abort', onOuterAbort);
+    if (e.name === 'AbortError') {
+      const err = new Error('timeout'); err.kind = 'timeout'; throw err;
+    }
+    const err = new Error('network'); err.kind = 'network'; throw err;
+  }
+  clearTimeout(timeoutId);
+  if (signal) signal.removeEventListener('abort', onOuterAbort);
+
+  if (!res.ok){
+    const err = new Error('HTTP ' + res.status);
+    err.status = res.status;
+    throw err;
+  }
+
+  const ctype = res.headers.get('content-type') || '';
+  if (payload.stream && res.body && /event-stream/i.test(ctype)){
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let full = '';
+    while(true){
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream:true });
+      const parts = buffer.split('\n\n');
+      buffer = parts.pop();
+      for (const part of parts){
+        const line = part.split('\n').find(l => l.startsWith('data:'));
+        if (!line) continue;
+        const data = line.slice(5).trim();
+        if (data === '[DONE]') continue;
+        try {
+          const j = JSON.parse(data);
+          const delta = extractDelta(j);
+          if (delta){ full += delta; if (onDelta) onDelta(delta, full); }
+        } catch(e){ /* ignore malformed chunk */ }
+      }
+    }
+    return { text: full };
+  }
+
+  const json = await res.json();
+  const text = extractText(json);
+  if (onDelta && text) onDelta(text, text);
+  return { text };
+}
+
+function extractDelta(j){
+  if (!j) return '';
+  if (j.choices && j.choices[0]){
+    const c = j.choices[0];
+    if (c.delta && typeof c.delta.content === 'string') return c.delta.content;
+    if (c.message && typeof c.message.content === 'string') return c.message.content;
+    if (typeof c.text === 'string') return c.text;
+  }
+  if (j.delta && typeof j.delta.text === 'string') return j.delta.text;
+  if (typeof j.token === 'string') return j.token;
+  return '';
+}
+function extractText(j){
+  if (!j) return '';
+  if (typeof j === 'string') return j;
+  if (j.choices && j.choices[0]){
+    const c = j.choices[0];
+    if (c.message && typeof c.message.content === 'string') return c.message.content;
+    if (typeof c.text === 'string') return c.text;
+  }
+  if (j.content && Array.isArray(j.content)){
+    return j.content.map(p => p.text || '').join('');
+  }
+  if (typeof j.text === 'string') return j.text;
+  if (typeof j.output === 'string') return j.output;
+  return '';
+}
+
+/* ---- Demo attempt: honest local simulation with failover demo ---- */
+async function demoAttempt(model, ctx){
+  const { messages, canvas, attachments, onDelta, signal } = ctx;
+  const settings = Store.data.settings;
+
+  // Simulated availability: a model that recently failed a lot is more likely to fail.
+  const h = Health.get(model.id);
+  const baseFailChance = clamp(0.10 + h.fails * 0.16 - h.ok * 0.02, 0.02, 0.72);
+  const willFail = Math.random() < baseFailChance;
+
+  const thinkMs = 260 + Math.random() * 520;
+  await sleep(thinkMs);
+  if (signal && signal.aborted){ const e = new Error('aborted'); e.name='AbortError'; throw e; }
+
+  if (willFail){
+    const kinds = ['timeout','network','rate','server'];
+    const kind = kinds[Math.floor(Math.random()*kinds.length)];
+    const e = new Error(kind);
+    e.kind = kind;
+    throw e;
+  }
+
+  const lastUser = [...messages].reverse().find(m => m.role === 'user');
+  const prompt = lastUser ? lastUser.content : '';
+  const gen = demoCompose(prompt, { canvas, attachments, model, messages });
+
+  const text = gen.text;
+  const patch = gen.canvasPatch || null;
+
+  if (settings.streaming && onDelta){
+    const chunks = chunkText(text, 6);
+    let acc = '';
+    for (const ch of chunks){
+      if (signal && signal.aborted){ const e = new Error('aborted'); e.name='AbortError'; throw e; }
+      acc += ch;
+      onDelta(ch, acc);
+      await sleep(11 + Math.random()*26);
+    }
+  } else if (onDelta){
+    onDelta(text, text);
+  }
+  return { text, canvasPatch: patch };
+}
+
+function chunkText(text, size){
+  const out = [];
+  let i = 0;
+  while(i < text.length){
+    out.push(text.slice(i, i + size));
+    i += size;
+  }
+  return out;
+}
+
+/* ---- Demo content generation ---- */
+function demoCompose(prompt, ctx){
+  const p = (prompt || '').trim();
+  const lower = p.toLowerCase();
+  const canvas = ctx.canvas;
+
+  // Canvas editing intents
+  if (canvas && canvas.content){
+    const patch = detectCanvasIntent(p, canvas);
+    if (patch) return patch;
+  }
+
+  if (/html|صفحه|لندینگ|سایت|landing|page|وبسایت/.test(lower)){
+    return { text: DEMO_HTML_NOTE + "\n\n```html\n" + DEMO_HTML + "\n```" };
+  }
+  if (/(شعر|poem)/.test(lower)){
+    return { text: "🌙 **شعر کوتاه**\n\n" +
+      "در سکوت شب، صدای تو می‌آید،\n" +
+      "چون نسیمی که از کوچهٔ خاطره می‌گذرد.\n" +
+      "هر ستاره، پنجره‌ای است به نام تو،\n" +
+      "و هر پنجره، انتظاری بی‌پایان.\n\n" +
+      "_اگر خواستی وزن و قافیه را تغییر بدهم، بگو._" };
+  }
+  if (/(کد|تابع|اسکریپت|javascript|js|python|پایتون|function)/.test(lower)){
+    return { text: "این یک نمونهٔ تابع جاوااسکریپت است که کار موردنظر را انجام می‌دهد:\n\n```javascript\n// تبدیل اعداد فارسی/عربی به رقم لاتین\nfunction toLatinDigits(input) {\n  const fa = '۰۱۲۳۴۵۶۷۸۹';\n  const ar = '٠١٢٣٤٥٦٧٨٩';\n  return String(input).replace(/[۰-۹٠-٩]/g, (ch) => {\n    const fi = fa.indexOf(ch);\n    if (fi > -1) return String(fi);\n    const ai = ar.indexOf(ch);\n    return ai > -1 ? String(ai) : ch;\n  });\n}\n\nexport default toLatinDigits;\n```\n\n**توضیح:** تابع کاراکتر به کاراکتر جلو می‌رود و هر رقم فارسی یا عربی را با معادل لاتین آن جایگزین می‌کند." };
+  }
+  if (/(متن|بنویس|مقاله|ایمیل|نامه|write|essay|email)/.test(lower)){
+    return { text: writingDemo(p) };
+  }
+  if (/(تفاوت|فرق|چیست|چیه|explain|توضیح)/.test(lower)){
+    return { text: explainDemo(p) };
+  }
+  return { text: genericDemo(p) };
+}
+
+const DEMO_HTML_NOTE = "یک صفحهٔ فرود ساده و واکنش‌گرا آماده کردم. می‌توانی آن را در کانواس ویرایش کنی و پیش‌نمایش زنده را ببینی:";
+const DEMO_HTML = `<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>صفحهٔ نمونه</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, sans-serif;
+      background: linear-gradient(160deg, #0b0d14, #111522);
+      color: #eaeefb; display: grid; place-items: center;
+      min-height: 100vh; padding: 24px;
+    }
+    .card {
+      max-width: 520px; width: 100%;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 22px; padding: 34px; text-align: center;
+      backdrop-filter: blur(14px);
+    }
+    h1 { margin: 0 0 12px; font-size: 26px; }
+    p { color: #9aa3bd; line-height: 1.9; margin: 0 0 22px; }
+    button {
+      border: 0; padding: 13px 30px; border-radius: 14px;
+      background: linear-gradient(135deg, #7c5cff, #22d3ee);
+      color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: transform .2s;
+    }
+    button:hover { transform: translateY(-2px); }
+    @media (max-width: 480px) { .card { padding: 24px; } h1 { font-size: 21px; } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>سلام! 👋</h1>
+    <p>این یک صفحهٔ نمونه است که با HTML و CSS ساخته شده و کاملاً واکنش‌گراست.</p>
+    <button onclick="alert('کار می‌کند! ✅')">امتحان کن</button>
+  </main>
+</body>
+</html>`;
+
+function writingDemo(prompt){
+  const topic = prompt.replace(/(بنویس|متن|مقاله|ایمیل|نامه|یک|در مورد|راجع به|درباره|برای|write|essay|email|about)/gi,'').trim() || 'موضوع موردنظر';
+  return `سلام،
+
+امیدوارم حالت خوب باشد. دربارهٔ «${topic}» نکاتی را آماده کردم که فکر می‌کنم به کارت بیاید.
+
+**۱. تصویر بزرگ**
+پیش از هر اقدامی، ارزش دارد هدف نهایی را روشن کنیم. وقتی بدانیم به کجا می‌خواهیم برسیم، مسیر کوتاه‌تر و تصمیم‌ها ساده‌تر می‌شوند.
+
+**۲. گام‌های عملی**
+- ابتدا وضعیت فعلی را دقیق توصیف کن.
+- سپس یک معیار روشن برای موفقیت تعیین کن.
+- در ادامه، فقط روی یک گام در هر زمان تمرکز کن.
+- در پایان، نتیجه را اندازه بگیر و اصلاح کن.
+
+**۳. نکتهٔ مهم**
+کیفیت نتیجه بیش از هر چیز به تداوم بستگی دارد، نه به شدت تلاش در یک روز.
+
+اگر خواستی متن را کوتاه‌تر، رسمی‌تر یا دوستانه‌تر کنم، فقط بگو.
+
+با احترام`;
+}
+
+function explainDemo(p){
+  return `سؤال خوبی است. اجازه بده ساده و مرحله‌به‌مرحله توضیح بدهم:
+
+**۱) تعریف کوتاه**
+موضوع «${p.replace(/[؟?]/g,'').slice(0,80)}» را می‌توان در یک جمله این‌گونه خلاصه کرد: تفاوت اصلی در *نحوهٔ پردازش اطلاعات* و *دامنهٔ کاربرد* است.
+
+**۲) تفاوت‌های کلیدی**
+- **دامنه:** بعضی مدل‌ها فقط متن را می‌فهمند، بعضی دیگر تصویر و صدا را هم پردازش می‌کنند.
+- **سرعت:** مدل‌های کوچک‌تر سریع‌تر پاسخ می‌دهند اما جزئیات کمتری دارند.
+- **هزینه:** مدل‌های بزرگ‌تر معمولاً دقیق‌تر اما گران‌تر هستند.
+
+**۳) جمع‌بندی**
+انتخاب درست به کار تو بستگی دارد: اگر سرعت مهم است، مدل کوچک؛ اگر دقت و استدلال مهم است، مدل بزرگ‌تر.
+
+می‌خواهی این را با یک مثال عملی بیشتر باز کنم؟`;
+}
+
+function genericDemo(p){
+  const short = p.slice(0, 90) || 'درخواست تو';
+  return `دریافت کردم: «${short}»
+
+بگذار ساختار روشنی برای پاسخ پیشنهاد کنم:
+
+**۱. درک درخواست**
+به نظر می‌رسد دنبال یک پاسخ روشن و قابل‌استفاده هستی، نه یک توضیح طولانی و کلی.
+
+**۲. پیشنهاد من**
+- ابتدا هدف دقیق را مشخص کنیم.
+- بعد محدودیت‌ها (زمان، قالب، لحن) را بنویسیم.
+- سپس یک پیش‌نویس بسازیم و آن را اصلاح کنیم.
+
+**۳. قدم بعدی**
+اگر بگویی خروجی را در چه قالبی می‌خواهی — متن، فهرست، کد یا صفحهٔ وب — دقیقاً همان را آماده می‌کنم.
+
+🟡 این پاسخ نمونهٔ حالت نمایشی است. برای پاسخ واقعی، آدرس Cloudflare Gateway را در تنظیمات وارد کن.`;
+}
+
+/* ---- Canvas intent detection (demo) ---- */
+function detectCanvasIntent(prompt, canvas){
+  const p = prompt.toLowerCase();
+  const content = canvas.content;
+
+  if (/(کوتاه|خلاصه|shorten)/.test(p)){
+    const shortened = shortenText(content);
+    if (shortened !== content){
+      return { text: "متن را کوتاه‌تر کردم و در کانواس اعمال شد. ✅", canvasPatch: shortened };
+    }
+  }
+  if (/(رنگ).*(آبی)|blue/.test(p)){
+    const updated = content.replace(/#[0-9a-fA-F]{3,8}/g, '#2563EB').replace(/\b(red|green|black|purple|orange)\b/gi, 'blue');
+    if (updated !== content){
+      return { text: "رنگ‌ها را به آبی تغییر دادم. ✅", canvasPatch: updated };
+    }
+  }
+  if (/(موبایل|ریسپانسیو|responsive|mobile)/.test(p) && /<html|<!doctype|<body/i.test(content)){
+    const patch = makeResponsive(content);
+    return { text: "صفحه را برای موبایل بهینه کردم: متا ویوپورت، اندازه‌های سیال و نقاط شکست اضافه شد. ✅", canvasPatch: patch };
+  }
+  if (/(تماس|contact).*(اضافه|بساز|بذار|insert)/.test(p) && /<body/i.test(content)){
+    const block = `
+  <section id="contact" style="max-width:520px;margin:40px auto;padding:26px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)">
+    <h2 style="margin:0 0 12px">تماس با ما</h2>
+    <p style="margin:0 0 16px;color:#9aa3bd">پیام خود را بنویسید و ارسال کنید.</p>
+    <form onsubmit="event.preventDefault();alert('ارسال شد ✅')" style="display:flex;gap:8px;flex-wrap:wrap">
+      <input required placeholder="ایمیل" style="flex:1;min-width:160px;padding:11px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.25);color:#fff">
+      <button style="padding:11px 20px;border-radius:11px;border:0;background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff;font-weight:700">ارسال</button>
+    </form>
+  </section>
+`;
+    const updated = content.replace(/<\/body>/i, block + '</body>');
+    if (updated !== content){
+      return { text: "یک بخش تماس به انتهای صفحه اضافه کردم. ✅", canvasPatch: updated };
+    }
+  }
+  if (/(بلندتر|گسترش|expand|بیشتر توضیح)/.test(p)){
+    const expanded = expandText(content);
+    return { text: "متن را گسترش دادم. ✅", canvasPatch: expanded };
+  }
+  return null;
+}
+
+function shortenText(text){
+  if (!text) return text;
+  const sentences = text.split(/(?<=[.!?؟。\n])\s+/).filter(Boolean);
+  if (sentences.length <= 2) return text.split('\n').filter(Boolean).slice(0,2).join('\n');
+  const keep = Math.max(1, Math.ceil(sentences.length * 0.5));
+  return sentences.slice(0, keep).join(' ').trim();
+}
+function expandText(text){
+  return text + "\n\n**توضیح تکمیلی:** این بخش را می‌توان بسته به هدف نهایی گسترش داد؛ برای مثال با افزودن مثال‌های واقعی، داده‌های پشتیبان و یک جمع‌بندی کوتاه که خواننده را به اقدام بعدی راهنمایی کند.";
+}
+function makeResponsive(html){
+  let out = html;
+  if (!/name=["']viewport["']/i.test(out)){
+    out = out.replace(/<head([^>]*)>/i, '<head$1>\n  <meta name="viewport" content="width=device-width, initial-scale=1">');
+  }
+  if (!/<\/head>/i.test(out)) return out;
+  const css = `
+  <style id="nono-responsive">
+    html { -webkit-text-size-adjust: 100%; }
+    body { padding-inline: clamp(12px, 4vw, 28px); }
+    img, video, svg, iframe { max-width: 100%; height: auto; }
+    .card, .container, main { width: 100%; max-width: 100%; }
+    @media (max-width: 640px) {
+      h1 { font-size: clamp(19px, 6vw, 26px); }
+      h2 { font-size: clamp(16px, 5vw, 22px); }
+      .card { padding: 20px 16px; }
+      button { width: 100%; }
+      form { flex-direction: column; }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      button, a { min-height: 44px; }
+    }
+  </style>
+`;
+  return out.replace(/<\/head>/i, css + '</head>');
+}
+
+/* ------------------------------ 8. Conversations -------------------------- */
+const Chat = {
+  active: null,
+  streaming: false,
+  abortController: null,
+  attachments: [],
+
+  ensureConversation(){
+    if (this.active) {
+      const c = Store.data.conversations.find(x => x.id === this.active);
+      if (c) return c;
+    }
+    const conv = {
+      id: uid('conv'),
+      title: t('newchat'),
+      createdAt: now(),
+      updatedAt: now(),
+      modelId: Store.data.settings.defaultModel,
+      messages: [],
+      canvasId: null
+    };
+    Store.data.conversations.unshift(conv);
+    this.active = conv.id;
+    Store.data.activeConversation = conv.id;
+    Store.save();
+    return conv;
+  },
+  current(){
+    return Store.data.conversations.find(c => c.id === this.active) || null;
+  },
+  switchTo(id){
+    this.active = id;
+    Store.data.activeConversation = id;
+    Store.save();
+    this.render();
+  },
+  new(){
+    const conv = {
+      id: uid('conv'),
+      title: t('newchat'),
+      createdAt: now(),
+      updatedAt: now(),
+      modelId: Store.data.settings.defaultModel,
+      messages: [],
+      canvasId: null
+    };
+    Store.data.conversations.unshift(conv);
+    this.active = conv.id;
+    Store.data.activeConversation = conv.id;
+    Store.save();
+    this.render();
+    return conv;
+  },
+  deleteConversation(id){
+    Store.data.conversations = Store.data.conversations.filter(c => c.id !== id);
+    if (this.active === id){
+      this.active = Store.data.conversations[0] ? Store.data.conversations[0].id : null;
+      Store.data.activeConversation = this.active;
+    }
+    Store.save();
+    this.render();
+  },
+
+  render(){
+    const host = $('#messages');
+    if (!host) return;
+    const conv = this.current();
+    if (!conv || !conv.messages.length){
+      host.innerHTML = `
+        <div class="welcome-chat">
+          <div class="orb orb-sm" data-state="idle"><span class="orb-glow"></span><span class="orb-core"></span></div>
+          <h3>${escapeHtml(t('chat.empty'))}</h3>
+          <p>${escapeHtml(t('chat.emptySub'))}</p>
+          <div class="sugg-grid">
+            <button class="sugg" data-sugg="${escapeHtml(t('sugg.1'))}">${escapeHtml(t('sugg.1'))}</button>
+            <button class="sugg" data-sugg="${escapeHtml(t('sugg.2'))}">${escapeHtml(t('sugg.2'))}</button>
+            <button class="sugg" data-sugg="${escapeHtml(t('sugg.3'))}">${escapeHtml(t('sugg.3'))}</button>
+            <button class="sugg" data-sugg="${escapeHtml(t('sugg.4'))}">${escapeHtml(t('sugg.4'))}</button>
+          </div>
+        </div>`;
+      host.querySelectorAll('[data-sugg]').forEach(b => b.addEventListener('click', () => {
+        $('#composerInput').value = b.getAttribute('data-sugg');
+        autoGrow($('#composerInput'));
+        sendMessage();
+      }));
+      return;
+    }
+    host.innerHTML = '';
+    conv.messages.forEach(msg => host.appendChild(renderMessage(msg)));
+    scrollToBottom();
+  },
+
+  addMessage(msg){
+    const conv = this.ensureConversation();
+    conv.messages.push(msg);
+    conv.updatedAt = now();
+    if (conv.messages.length === 1 && msg.role === 'user'){
+      conv.title = msg.content.slice(0, 48) || t('newchat');
+    }
+    Store.save();
+    return msg;
+  }
+};
+
+function scrollToBottom(){
+  const host = $('#messages');
+  if (!host) return;
+  requestAnimationFrame(() => { host.scrollTop = host.scrollHeight; });
+}
+
+/* ---- Message rendering with auto-collapse ---- */
+function renderMessage(msg){
+  const wrap = document.createElement('article');
+  wrap.className = 'msg ' + msg.role;
+  wrap.dataset.id = msg.id;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  if (msg.role === 'user'){
+    avatar.textContent = '🙂';
+  } else {
+    const p = providerOf(msg.provider || 'openai');
+    avatar.textContent = p.short;
+    avatar.style.color = p.color;
+    avatar.style.background = `linear-gradient(135deg, ${p.color}33, ${p.color}12)`;
+  }
+
+  const bw = document.createElement('div');
+  bw.className = 'bubble-wrap';
+
+  // Failover / provider label
+  if (msg.role === 'assistant' && msg.modelName){
+    const tag = document.createElement('span');
+    tag.className = 'msg-tag';
+    tag.textContent = `${t('failover.label')} ${msg.modelName}`;
+    bw.appendChild(tag);
+  }
+  if (msg.role === 'assistant' && msg.demo){
+    const tag = document.createElement('span');
+    tag.className = 'msg-tag';
+    tag.textContent = '🟡 ' + (LANG === 'fa' ? 'نمایشی' : 'Demo');
+    bw.appendChild(tag);
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  const fullText = msg.content || '';
+  const cfg = Store.data.settings;
+  const shouldCollapse = cfg.autoCollapse && msg.role === 'assistant' && fullText.length > (cfg.collapseAfterCharacters || 1800);
+
+  let collapsed = shouldCollapse;
+  let collapsedView = null;
+  let moreBtn = null;
+
+  if (shouldCollapse){
+    collapsedView = document.createElement('div');
+    collapsedView.className = 'fade-mask';
+    collapsedView.innerHTML = renderMarkdown(fullText.slice(0, cfg.previewCharacters || 500)) + '<span style="opacity:.55">…</span>';
+    bubble.appendChild(collapsedView);
+
+    moreBtn = document.createElement('button');
+    moreBtn.className = 'collapse-btn';
+    moreBtn.textContent = t('msg.showMore');
+    moreBtn.addEventListener('click', () => {
+      collapsed = !collapsed;
+      if (collapsed){
+        bubble.innerHTML = '';
+        const v = document.createElement('div');
+        v.className = 'fade-mask';
+        v.innerHTML = renderMarkdown(fullText.slice(0, cfg.previewCharacters || 500)) + '<span style="opacity:.55">…</span>';
+        bubble.appendChild(v);
+        moreBtn.textContent = t('msg.showMore');
+      } else {
+        bubble.innerHTML = renderMarkdown(fullText);
+        moreBtn.textContent = t('msg.showLess');
+      }
+    });
+  } else {
+    bubble.innerHTML = renderMarkdown(fullText);
+  }
+
+  bw.appendChild(bubble);
+  if (moreBtn) bw.appendChild(moreBtn);
+
+  // Footer actions
+  const foot = document.createElement('div');
+  foot.className = 'msg-foot';
+  if (msg.role === 'assistant'){
+    foot.appendChild(miniBtn('i-copy', t('msg.copy'), () => {
+      copyText(fullText); toast(t('msg.copied'), 'ok');
+    }));
+    foot.appendChild(miniBtn('i-refresh', t('msg.regen'), () => regenerate(msg)));
+    foot.appendChild(miniBtn('i-canvas', t('msg.toCanvas'), () => openInCanvas(msg)));
+    foot.appendChild(miniBtn('i-share', t('msg.share'), () => {
+      copyText(`— ${msg.modelName || 'NONO AI'} —\n\n${fullText}`); toast(t('msg.shared'), 'ok');
+    }));
+    foot.appendChild(miniBtn('i-trash', t('msg.delete'), () => deleteMessage(msg)));
+  } else {
+    foot.appendChild(miniBtn('i-copy', t('msg.copy'), () => { copyText(fullText); toast(t('msg.copied'), 'ok'); }));
+    foot.appendChild(miniBtn('i-edit', t('msg.edit'), () => editMessage(msg)));
+    foot.appendChild(miniBtn('i-trash', t('msg.delete'), () => deleteMessage(msg)));
+  }
+  bw.appendChild(foot);
+
+  wrap.appendChild(avatar);
+  wrap.appendChild(bw);
+  return wrap;
+}
+
+function miniBtn(icon, label, onClick){
+  const b = document.createElement('button');
+  b.className = 'mini';
+  b.innerHTML = `<svg><use href="#${icon}"/></svg><span>${escapeHtml(label)}</span>`;
+  b.addEventListener('click', onClick);
+  return b;
+}
+
+/* ---- Simple markdown renderer (safe) ---- */
+function renderMarkdown(src){
+  if (!src) return '';
+  let text = String(src);
+  const codeBlocks = [];
+  text = text.replace(/
